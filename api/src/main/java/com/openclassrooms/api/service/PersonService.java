@@ -9,7 +9,7 @@ import com.openclassrooms.api.model.Email;
 import com.openclassrooms.api.model.Firestation;
 import com.openclassrooms.api.model.Medicalrecord;
 import com.openclassrooms.api.model.PersonInfos;
-import com.openclassrooms.api.service.CalculateAgeService;
+//import com.openclassrooms.api.service.CalculateAgeService;
 import com.openclassrooms.api.repository.PersonRepository;
 import com.openclassrooms.api.repository.MedicalrecordRepository;
 import com.openclassrooms.api.repository.FirestationRepository;
@@ -25,15 +25,12 @@ public class PersonService {
     @Autowired
     private PersonRepository personRepository;
     
-    @Autowired
+ /*   @Autowired
     private MedicalrecordRepository medicalrecordRepository;
     
     @Autowired
-    private FirestationRepository firestationRepository;
+    private FirestationRepository firestationRepository; */
     
-    @Autowired
-    private CalculateAgeService calculateAgeService;
-
     public Optional<Person> getPerson(final Long id) {
         return personRepository.findById(id);
     }
@@ -103,7 +100,7 @@ public class PersonService {
         return listOfEmail;	
 	}
 	
-	  public List<PersonInfos> getlistPersonsByFirstnameAndLastname(String firstname, String lastname) {
+/*	  public List<PersonInfos> getlistPersonsByFirstnameAndLastname(String firstname, String lastname) {
 
 	        List<PersonInfos> listPersonsInfo = new ArrayList<>();
 	        List<String> listStations = new ArrayList<>();
@@ -145,6 +142,6 @@ public class PersonService {
 	        }
 
 	        return listPersonsInfo;
-	    }
+	    }*/
 
 }

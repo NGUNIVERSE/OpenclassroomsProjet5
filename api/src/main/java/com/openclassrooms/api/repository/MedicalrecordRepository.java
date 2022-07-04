@@ -11,6 +11,6 @@ import com.openclassrooms.api.model.Medicalrecord;
 @Repository
 public interface MedicalrecordRepository extends CrudRepository<Medicalrecord, Long> {
 
-	Medicalrecord findFirstMedicalrecordByPersonId(int personId);
+//	Medicalrecord findFirstMedicalrecordByPersonId(int personId);
 	
 }
