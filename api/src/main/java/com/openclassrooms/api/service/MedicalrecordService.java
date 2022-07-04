@@ -36,5 +36,39 @@ public class MedicalrecordService {
     	Medicalrecord savedMedicalrecord = medicalrecordRepository.save(medicalrecord);
         return savedMedicalrecord;
     }
+    
+   
+	public Optional<Medicalrecord> updateMedicalrecord(final Long id, Medicalrecord medicalrecord) {
+		Optional<Medicalrecord> e = medicalrecordRepository.findById(id);
+		if(e.isPresent()) {
+			Medicalrecord currentMedicalrecord = e.get();
+			
+			String firstname = medicalrecord.getFirstname();
+			if(firstname != null) {
+				currentMedicalrecord.setFirstname(firstname);
+			}
+			String lastname = medicalrecord.getLastname();
+			if(lastname != null) {
+				currentMedicalrecord.setLastname(lastname);
+			}
+			String birthdate = medicalrecord.getBirthdate();
+			if(birthdate != null) {
+				currentMedicalrecord.setBirthdate(birthdate);;
+			}
+			String medications = medicalrecord.getMedications();
+			if(medications != null) {
+				currentMedicalrecord.setMedications(medications);;
+			}
+			String allergies = medicalrecord.getAllergies();
+			if(allergies != null) {
+				currentMedicalrecord.setAllergies(allergies);;
+			}	
+			
+			return Optional.of(medicalrecordRepository.save(currentMedicalrecord));
+		
+		} else {
+			return (Optional.empty());
+		}
+	}
 
 }

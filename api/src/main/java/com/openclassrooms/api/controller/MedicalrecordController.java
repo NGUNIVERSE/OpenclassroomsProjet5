@@ -1,9 +1,9 @@
 	package com.openclassrooms.api.controller;
-
 	import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-	import org.springframework.http.ResponseEntity;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -12,11 +12,11 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 	import org.springframework.web.bind.annotation.RequestParam;
 	import org.springframework.web.bind.annotation.ResponseBody;
-	import org.springframework.web.bind.annotation.RestController;
-
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 	import com.openclassrooms.api.model.Medicalrecord;
 import com.openclassrooms.api.model.Person;
-//import com.openclassrooms.api.repository.PersonRepository;
+import com.openclassrooms.api.repository.PersonRepository;
 	import com.openclassrooms.api.service.MedicalrecordService;
 
 
@@ -33,14 +33,12 @@ import com.openclassrooms.api.model.Person;
 		 * @return A Medicalrecord object full filled
 		 */
 		@GetMapping("/medicalrecord/{id}")
-		public Medicalrecord getMedicalrecord(@PathVariable("id") final Long id) {
-			Optional<Medicalrecord> medicalrecord = medicalrecordService.getMedicalrecord(id);
-			if(medicalrecord.isPresent()) {
-				return medicalrecord.get();
-			} else {
-				return null;
-			}
+		public ResponseEntity<Medicalrecord> getMedicalrecord(@PathVariable("id") final Long id) {
+	
+			return ResponseEntity.of(medicalrecordService.getMedicalrecord(id));
+
 		}
+
 	    /**
 	    * Read - Get all medicalrecords
 	    * @return - An Iterable object of Medicalrecord full filled
@@ -56,19 +54,20 @@ import com.openclassrooms.api.model.Person;
 		 * @return The medicalrecord object saved
 		 */
 		@PostMapping("/medicalrecord")
-		public Medicalrecord createMedicalrecord(@RequestBody Medicalrecord medicalrecord) {
-			return medicalrecordService.saveMedicalrecord(medicalrecord);
+		public ResponseEntity<Medicalrecord> createMedicalrecord(@RequestBody Medicalrecord medicalrecord) {
+			return ResponseEntity.status(HttpStatus.CREATED).body(medicalrecordService.saveMedicalrecord(medicalrecord));
 		}
-		
 		
 		/**
 		 * Delete - Delete a medicalrecord
 		 * @param id - The id of the person to delete
 		 */
+		@ResponseStatus(value = HttpStatus.NO_CONTENT)
 		@DeleteMapping("/medicalrecord/{id}")
 		public void deleteMedicalrecord(@PathVariable("id") final Long id) {
 			medicalrecordService.deleteMedicalrecord(id);
 		}
+		
 		
 		/**
 		 * Update - Update an existing medicarecord
@@ -77,36 +76,9 @@ import com.openclassrooms.api.model.Person;
 		 * @return
 		 */
 		@PutMapping("/medicalrecord/{id}")
-		public Medicalrecord updateMedicalrecord(@PathVariable("id") final Long id, @RequestBody Medicalrecord medicalrecord) {
-			Optional<Medicalrecord> e = medicalrecordService.getMedicalrecord(id);
-			if(e.isPresent()) {
-				Medicalrecord currentMedicalrecord = e.get();
-				
-				String firstname = medicalrecord.getFirstname();
-				if(firstname != null) {
-					currentMedicalrecord.setFirstname(firstname);
-				}
-				String lastname = medicalrecord.getLastname();
-				if(lastname != null) {
-					currentMedicalrecord.setLastname(lastname);
-				}
-				String birthdate = medicalrecord.getBirthdate();
-				if(birthdate != null) {
-					currentMedicalrecord.setBirthdate(birthdate);;
-				}
-				String medications = medicalrecord.getMedications();
-				if(medications != null) {
-					currentMedicalrecord.setMedications(medications);;
-				}
-				String allergies = medicalrecord.getAllergies();
-				if(allergies != null) {
-					currentMedicalrecord.setAllergies(allergies);;
-				}	
-				medicalrecordService.saveMedicalrecord(currentMedicalrecord);
-				return currentMedicalrecord;
-			} else {
-				return null;
-			}
+		public ResponseEntity<Medicalrecord> updateMedicalrecord(@PathVariable("id") final Long id, @RequestBody Medicalrecord medicalrecord) {
+		
+			return ResponseEntity.of(medicalrecordService.updateMedicalrecord(id , medicalrecord));
 		}
-
+		
 }
