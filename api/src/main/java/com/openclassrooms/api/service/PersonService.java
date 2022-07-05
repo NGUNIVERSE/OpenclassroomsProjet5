@@ -100,6 +100,39 @@ public class PersonService {
         return listOfEmail;	
 	}
 	
+	public List<Person> getPersonPerAddress(String address)
+	{
+		List<Person> listOfPerson = new ArrayList<>();
+        Iterable<Person> persons = personRepository.findPersonByAddress(address);
+        for (Person Person : persons) {
+            Person person = new Person();
+            person.setId(Person.getId());
+            person.setFirstname(Person.getFirstname());
+            person.setLastname(Person.getLastname());
+            person.setAddress(Person.getAddress());
+            person.setCity(Person.getCity());
+            person.setZip(Person.getZip());
+            person.setPhone(Person.getPhone());
+            person.setEmail(Person.getEmail());
+            listOfPerson.add(person);
+        }
+        return listOfPerson;
+	}
+	
+public List<String> getPhoneNumberOfPerson(List<Person> listOfPerson)
+{
+	List<String> listOfPhoneNumber = new ArrayList<>();
+	Iterable<Person> listOfPersons = listOfPerson;
+	for(Person Person : listOfPersons)
+	{
+		String phoneNumber = new String();
+		phoneNumber = Person.getPhone();
+		listOfPhoneNumber.add(phoneNumber);
+	}
+	
+	return listOfPhoneNumber;
+} 
+	
 /*	  public List<PersonInfos> getlistPersonsByFirstnameAndLastname(String firstname, String lastname) {
 
 	        List<PersonInfos> listPersonsInfo = new ArrayList<>();

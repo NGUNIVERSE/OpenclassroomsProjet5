@@ -102,13 +102,12 @@ import com.openclassrooms.api.repository.FirestationRepository;
 			return ResponseEntity.of(firestationService.updateFirestation(id , firestation));
 		}
 	//	http://localhost:8080/phoneAlert?firestation=<firestation_number>
-	    @GetMapping("/phoneAlert")
+	/*    @GetMapping("/phoneAlert")
 	    public List<String> listOfAddressByFirestationNumber(@RequestParam("firestation") final String firestation) {
 	       
 	    	return firestationService.getAddressByFirestation(firestation);
-	    }
+	    } */
 	 
-
 }
 
 
