@@ -1,5 +1,7 @@
 package com.openclassrooms.api.service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import com.openclassrooms.api.model.AddressByFirestationNumber;
 import com.openclassrooms.api.model.Firestation;
 import com.openclassrooms.api.repository.FirestationRepository;
 
@@ -58,6 +61,21 @@ public class FirestationService {
 			return (Optional.empty());
 		}
 	}
-
-
+	
+	public List<String> getAddressByFirestation(String station){
+		
+		List<String> listOfAddressByFirestationNumber = new ArrayList<>();
+		//List<Firestation> listOfAddressByFirestationNumber = new ArrayList<>();
+		
+		Iterable<Firestation> firestation = firestationRepository.findByStation(station);
+		for(Firestation Firestation : firestation)
+		{
+			String addressByFirestationNumber = new String();
+			addressByFirestationNumber = Firestation.getAddress();
+		//	addressByFirestationNumber.setStation(Firestation.getStation());
+			listOfAddressByFirestationNumber.add(addressByFirestationNumber);
+		}
+		
+		return listOfAddressByFirestationNumber;
+	}
 }
