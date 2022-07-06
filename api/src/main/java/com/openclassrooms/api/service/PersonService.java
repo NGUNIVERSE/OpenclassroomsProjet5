@@ -118,6 +118,29 @@ public class PersonService {
         }
         return listOfPerson;
 	}
+	public List<Person> getPersonPerAddress(List<String> address)
+	{
+		List<Person> listOfPerson = new ArrayList<>();
+		List<String> addresses = address;
+		int i=0;
+		for(i=0; i<addresses.size();i++) {
+		
+			Iterable<Person> persons = personRepository.findPersonByAddress(addresses.get(i));
+        for (Person Person : persons) {
+            Person person = new Person();
+            person.setId(Person.getId());
+            person.setFirstname(Person.getFirstname());
+            person.setLastname(Person.getLastname());
+            person.setAddress(Person.getAddress());
+            person.setCity(Person.getCity());
+            person.setZip(Person.getZip());
+            person.setPhone(Person.getPhone());
+            person.setEmail(Person.getEmail());
+            listOfPerson.add(person);
+        }
+        }
+        return listOfPerson;
+	}
 	
 public List<String> getPhoneNumberOfPerson(List<Person> listOfPerson)
 {

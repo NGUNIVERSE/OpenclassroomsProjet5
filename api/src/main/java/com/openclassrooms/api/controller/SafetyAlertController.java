@@ -22,18 +22,22 @@ import com.openclassrooms.api.model.Firestation;
 import com.openclassrooms.api.model.Person;
 import com.openclassrooms.api.repository.FirestationRepository;
 import com.openclassrooms.api.service.FirestationService;
+import com.openclassrooms.api.service.SafetyAlertService;
 
 @RestController
 public class SafetyAlertController {
 	
 	  @Autowired
 	    private FirestationService firestationService;
+	  @Autowired
+	    private SafetyAlertService safetyAlertService;
 
 //		http://localhost:8080/phoneAlert?firestation=<firestation_number>
 	    @GetMapping("/phoneAlert")
-	    public List<String> listOfAddressByFirestationNumber(@RequestParam("firestation") final String firestation) {
+	    public List<String> listOfPhoneNumberOfPersonByFirestation(@RequestParam("firestation") final String firestation) {
 	       
-	    	return firestationService.getAddressByFirestation(firestation);
+	    	//return firestationService.getAddressByFirestation(firestation);
+	    	return safetyAlertService.getPhoneNumberOfPersonByFirestation(firestation);
 	    }
 	 
 	}
