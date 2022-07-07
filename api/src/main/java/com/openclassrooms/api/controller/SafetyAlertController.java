@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.openclassrooms.api.model.AddressByFirestationNumber;
+import com.openclassrooms.api.model.Child;
 import com.openclassrooms.api.model.Email;
 import com.openclassrooms.api.model.Firestation;
 import com.openclassrooms.api.model.Person;
@@ -39,6 +40,14 @@ public class SafetyAlertController {
 	    	//return firestationService.getAddressByFirestation(firestation);
 	    	return safetyAlertService.getPhoneNumberOfPersonByFirestation(firestation);
 	    }
+	    
+	    //http://localhost:8080/childAlert?address=<address>
+	    @GetMapping("/childAlert")
+	    public List<Child> listOfChildAtAnAddress(@RequestParam("address") final String address)
+	    {
+	    	return safetyAlertService.getChildListFromAnAddress(address);
+	    	
+	    } 
 	 
 	}
 

@@ -5,6 +5,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import com.openclassrooms.api.model.Medicalrecord;
+import com.openclassrooms.api.model.Person;
 
 
 
@@ -12,5 +13,5 @@ import com.openclassrooms.api.model.Medicalrecord;
 public interface MedicalrecordRepository extends CrudRepository<Medicalrecord, Long> {
 
 //	Medicalrecord findFirstMedicalrecordByPersonId(int personId);
-	
+	Medicalrecord findMedicalrecordByFirstnameAndLastname(String firstname, String lastname);
 }

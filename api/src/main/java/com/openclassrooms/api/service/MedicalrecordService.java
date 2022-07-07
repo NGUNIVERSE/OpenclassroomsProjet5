@@ -70,5 +70,8 @@ public class MedicalrecordService {
 			return (Optional.empty());
 		}
 	}
-
+	public Medicalrecord findMedicalrecordByFirstnameAndLastname(String firstname, String lastname)
+	{
+		return medicalrecordRepository.findMedicalrecordByFirstnameAndLastname(firstname, lastname);
+	}
 }

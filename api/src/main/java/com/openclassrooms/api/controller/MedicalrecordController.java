@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 	import com.openclassrooms.api.model.Medicalrecord;
 import com.openclassrooms.api.model.Person;
+import com.openclassrooms.api.repository.MedicalrecordRepository;
 import com.openclassrooms.api.repository.PersonRepository;
 	import com.openclassrooms.api.service.MedicalrecordService;
 
@@ -26,7 +27,8 @@ import com.openclassrooms.api.repository.PersonRepository;
 
 	    @Autowired
 	    private MedicalrecordService medicalrecordService;
-
+/*@Autowired
+private MedicalrecordRepository medicalrecordRepository; */
 		/**
 		 * Read - Get one medicalrecord
 		 * @param id The id of the person
@@ -81,4 +83,10 @@ import com.openclassrooms.api.repository.PersonRepository;
 			return ResponseEntity.of(medicalrecordService.updateMedicalrecord(id , medicalrecord));
 		}
 		
+		@GetMapping("/testage")
+		public Medicalrecord findBirthdateByFirstnameAndLastnames(String firstname, String lastname) {
+		
+		return medicalrecordService.findMedicalrecordByFirstnameAndLastname(firstname, lastname);
+		
+		}
 }
