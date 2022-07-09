@@ -5,6 +5,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.openclassrooms.api.model.Person;
+import com.openclassrooms.api.model.PersonCovered;
 import com.openclassrooms.api.model.Child;
 import com.openclassrooms.api.model.Email;
 import com.openclassrooms.api.model.Firestation;
@@ -96,4 +97,55 @@ public class SafetyAlertService {
         //return String.valueOf(calculAge);
         return calculAge;
     }
+	
+	public List<PersonCovered> getPersonCoveredByFirestation(String station)
+	{
+		List<PersonCovered> personCovered = new ArrayList<>();
+		List<String> addressByFirestation = firestationService.getAddressByFirestation(station);
+		List<Person> personByAddress = personService.getPersonPerAddress(addressByFirestation);
+		
+		
+		Medicalrecord medicalrecord = new Medicalrecord();
+		//Person person = new Person();
+		
+		int i = 0;
+		long age = 0;
+		int nombreAdulte = 0 ;
+		int nombreEnfant = 0 ;
+		
+		for(i=0;i<personByAddress.size();i++)
+		{ 
+			
+			//PersonCovered personCovereds = new PersonCovered();
+			//person = listOfPersonAtAnAddress.get(i);
+			medicalrecord = medicalrecordService.findMedicalrecordByFirstnameAndLastname(personByAddress.get(i).getFirstname(), personByAddress.get(i).getLastname() );
+			//calcul de l'age
+			age = getAge(medicalrecord.getBirthdate());
+			PersonCovered personCovereds = new PersonCovered(personByAddress.get(i).getFirstname(),personByAddress.get(i).getLastname(),
+			personByAddress.get(i).getAddress(),personByAddress.get(i).getPhone() );
+
+			
+			if(age <= 18)
+			{	//si oui ajouter son nom à la liste child
+				nombreEnfant++;
+			}
+			else
+			{	
+				nombreAdulte++;
+			}			
+			
+			personCovered.add(personCovereds);
+		}
+		for(i=0;i<personCovered.size();i++)
+		{
+			personCovered.get(i).setNombreEnfant(nombreEnfant);
+			personCovered.get(i).setNombreAdulte(nombreAdulte);
+		}
+		//List des adress parfirestation
+		//liste des person par adresse
+		//nombre dadulte et d'enfant
+		
+		return personCovered;
+	}
 }
+

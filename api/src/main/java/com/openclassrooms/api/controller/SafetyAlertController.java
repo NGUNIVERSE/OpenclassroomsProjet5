@@ -21,6 +21,7 @@ import com.openclassrooms.api.model.Child;
 import com.openclassrooms.api.model.Email;
 import com.openclassrooms.api.model.Firestation;
 import com.openclassrooms.api.model.Person;
+import com.openclassrooms.api.model.PersonCovered;
 import com.openclassrooms.api.repository.FirestationRepository;
 import com.openclassrooms.api.service.FirestationService;
 import com.openclassrooms.api.service.SafetyAlertService;
@@ -48,6 +49,15 @@ public class SafetyAlertController {
 	    	return safetyAlertService.getChildListFromAnAddress(address);
 	    	
 	    } 
+	    
+	    //http://localhost:8080/firestation?stationNumber=<station_number>
+	    @GetMapping("/firestation")
+	    public List<PersonCovered> listOfPersonCoveredByFirestation(@RequestParam("station") final String station)
+	    {
+	    	return safetyAlertService.getPersonCoveredByFirestation(station);
+	    	
+	    }
+	    	
 	 
 	}
 
