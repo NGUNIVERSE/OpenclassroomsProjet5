@@ -155,7 +155,10 @@ public List<String> getPhoneNumberOfPerson(List<Person> listOfPerson)
 	
 	return listOfPhoneNumber;
 } 
-	
+	public Person getPersonByFirstnameAndLastname(String firstname, String lastname)
+	{
+		return personRepository.findPersonByFirstnameAndLastname(firstname, lastname);
+	}
 /*	  public List<PersonInfos> getlistPersonsByFirstnameAndLastname(String firstname, String lastname) {
 
 	        List<PersonInfos> listPersonsInfo = new ArrayList<>();

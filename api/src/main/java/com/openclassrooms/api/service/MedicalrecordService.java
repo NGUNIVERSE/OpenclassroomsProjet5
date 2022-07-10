@@ -74,4 +74,5 @@ public class MedicalrecordService {
 	{
 		return medicalrecordRepository.findMedicalrecordByFirstnameAndLastname(firstname, lastname);
 	}
+
 }

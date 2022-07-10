@@ -22,6 +22,7 @@ import com.openclassrooms.api.model.Email;
 import com.openclassrooms.api.model.Firestation;
 import com.openclassrooms.api.model.Person;
 import com.openclassrooms.api.model.PersonCovered;
+import com.openclassrooms.api.model.PersonInfo;
 import com.openclassrooms.api.model.PersonLivingAtAnAddress;
 import com.openclassrooms.api.repository.FirestationRepository;
 import com.openclassrooms.api.service.FirestationService;
@@ -64,6 +65,16 @@ public class SafetyAlertController {
 	    {
 	    	return safetyAlertService.getPersonLivingAtAnAddress(address);
 	    }
+	    
+	    /* http://localhost:8080/personInfo?firstName=<firstName>&lastName=<lastName>
+Cette url doit retourner le nom, l'adresse, l'âge, l'adresse mail et les antécédents médicaux (médicaments,
+posologie, allergies) de chaque habitant. Si plusieurs personnes portent le même nom, elles doivent
+toutes apparaître. */
+	    @GetMapping("/personInfo")
+	    public PersonInfo informationAboutPerson(@RequestParam("firstname") final String firstname, @RequestParam("lastname") final String lastname)
+	    {
+	    	return safetyAlertService.getInformationAboutPerson(firstname,lastname)
+;	    }
 	 
 	}
 
