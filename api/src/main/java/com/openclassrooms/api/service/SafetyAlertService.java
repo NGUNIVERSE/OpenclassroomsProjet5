@@ -10,6 +10,7 @@ import com.openclassrooms.api.model.PersonInfo;
 import com.openclassrooms.api.model.Child;
 import com.openclassrooms.api.model.Email;
 import com.openclassrooms.api.model.Firestation;
+import com.openclassrooms.api.model.FloodList;
 import com.openclassrooms.api.model.Medicalrecord;
 import com.openclassrooms.api.model.PersonInfos;
 import com.openclassrooms.api.model.PersonLivingAtAnAddress;
@@ -198,6 +199,36 @@ toutes apparaître. */
 		personInfo.setAllergies(medicalrecord.getAllergies());
 		
 		return personInfo;
+	}
+	
+	public List<FloodList> getListOfHomeDeservedByFirestation(String station)
+	{
+		 /*http://localhost:8080/flood/stations?stations=<a list of station_numbers>
+		Cette url doit retourner une liste de tous les foyers desservis par la caserne. Cette liste doit regrouper les
+		personnes par adresse. Elle doit aussi inclure le nom, le numéro de téléphone et l'âge des habitants, et
+		faire figurer leurs antécédents médicaux (médicaments, posologie et allergies) à côté de chaque nom.*/
+		//renvoyer les address par station
+		//renvoyer les personne par address
+		// trouver leur antecedant medicaux
+		List<FloodList> floodList = new ArrayList<>();
+		List<String> listOfFirestation = firestationService.getAddressByFirestation(station);
+		List<Person> listOfPersonByAddress = personService.getPersonPerAddress(listOfFirestation);
+		int i = 0 ;
+		Medicalrecord medicalrecord = new Medicalrecord();
+		for(i=0;i<listOfPersonByAddress.size();i++)
+		{
+			FloodList flood = new FloodList();
+			medicalrecord = medicalrecordService.findMedicalrecordByFirstnameAndLastname(listOfPersonByAddress.get(i).getFirstname(), listOfPersonByAddress.get(i).getLastname());
+			flood.setAddress(listOfPersonByAddress.get(i).getAddress());
+			flood.setFirstname(listOfPersonByAddress.get(i).getFirstname());
+			flood.setLastname(listOfPersonByAddress.get(i).getLastname());
+			flood.setPhoneNumber(listOfPersonByAddress.get(i).getPhone());
+			flood.setAge(getAge(medicalrecord.getBirthdate()));
+			flood.setMedications(medicalrecord.getMedications());
+			flood.setAllergies(medicalrecord.getAllergies());
+			floodList.add(flood);
+		}
+		return floodList;
 	}
 }
 

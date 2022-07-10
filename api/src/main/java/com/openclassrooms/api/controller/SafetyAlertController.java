@@ -20,6 +20,7 @@ import com.openclassrooms.api.model.AddressByFirestationNumber;
 import com.openclassrooms.api.model.Child;
 import com.openclassrooms.api.model.Email;
 import com.openclassrooms.api.model.Firestation;
+import com.openclassrooms.api.model.FloodList;
 import com.openclassrooms.api.model.Person;
 import com.openclassrooms.api.model.PersonCovered;
 import com.openclassrooms.api.model.PersonInfo;
@@ -73,10 +74,18 @@ toutes apparaître. */
 	    @GetMapping("/personInfo")
 	    public PersonInfo informationAboutPerson(@RequestParam("firstname") final String firstname, @RequestParam("lastname") final String lastname)
 	    {
-	    	return safetyAlertService.getInformationAboutPerson(firstname,lastname)
-;	    }
-	 
-	}
+	    	return safetyAlertService.getInformationAboutPerson(firstname,lastname);	  
+	    }
+	 /*http://localhost:8080/flood/stations?stations=<a list of station_numbers>
+Cette url doit retourner une liste de tous les foyers desservis par la caserne. Cette liste doit regrouper les
+personnes par adresse. Elle doit aussi inclure le nom, le numéro de téléphone et l'âge des habitants, et
+faire figurer leurs antécédents médicaux (médicaments, posologie et allergies) à côté de chaque nom.*/
+	    @GetMapping("/flood/stations")
+	    public List<FloodList> listOfHomeDeservedByFirestation(@RequestParam("station") final String station)
+	    {
+	    	return safetyAlertService.getListOfHomeDeservedByFirestation(station);
+	    }
+}
 
 
 
