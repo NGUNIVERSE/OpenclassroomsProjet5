@@ -11,8 +11,10 @@ import com.openclassrooms.api.model.Email;
 import com.openclassrooms.api.model.Firestation;
 import com.openclassrooms.api.model.Medicalrecord;
 import com.openclassrooms.api.model.PersonInfos;
+import com.openclassrooms.api.model.PersonLivingAtAnAddress;
 //import com.openclassrooms.api.service.CalculateAgeService;
 import com.openclassrooms.api.repository.PersonRepository;
+import com.sun.jmx.mbeanserver.Repository;
 import com.openclassrooms.api.repository.MedicalrecordRepository;
 import com.openclassrooms.api.repository.FirestationRepository;
 
@@ -146,6 +148,34 @@ public class SafetyAlertService {
 		//nombre dadulte et d'enfant
 		
 		return personCovered;
+	}
+	
+	public List<PersonLivingAtAnAddress> getPersonLivingAtAnAddress(String address)
+	{
+		List<PersonLivingAtAnAddress> listOfPersonLivingAtAnAddress = new ArrayList<>();
+		List<Person> listOfPerson = personService.getPersonPerAddress(address);
+		Firestation firestation = firestationService.getFirestationByAddress(address);
+		Medicalrecord medicalrecord = new Medicalrecord();
+		int i = 0;
+		for(i=0; i<listOfPerson.size();i++)
+		{
+			//PersonLivingAtAnAddress personAtAnAddress = new PersonLivingAtAnAddress();
+			medicalrecord = medicalrecordService.findMedicalrecordByFirstnameAndLastname(listOfPerson.get(i).getFirstname(),listOfPerson.get(i).getLastname());
+			PersonLivingAtAnAddress personAtAnAddress = new PersonLivingAtAnAddress(listOfPerson.get(i).getFirstname(),
+									   listOfPerson.get(i).getLastname(),
+									   listOfPerson.get(i).getPhone(),
+									   getAge(medicalrecord.getBirthdate()),
+									   medicalrecord.getMedications(),
+									   medicalrecord.getAllergies(),firestation.getStation());
+			listOfPersonLivingAtAnAddress.add(personAtAnAddress);
+		}
+		//getpersonbyaddress
+		//getfirestationnumberbyaddress
+		//getmedicalrecord
+		
+		
+		
+		return listOfPersonLivingAtAnAddress;
 	}
 }
 

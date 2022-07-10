@@ -15,4 +15,5 @@ public interface FirestationRepository extends CrudRepository<Firestation, Long>
 	// List<Firestation> findFirestationByAddress(String address);
 	// List<Firestation> findAddressByFirestation(String station);
 	 List<Firestation> findByStation(String station);
+	 Firestation findFirestationByAddress(String address);
 }

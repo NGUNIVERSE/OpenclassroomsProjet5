@@ -78,4 +78,11 @@ public class FirestationService {
 		
 		return listOfAddressByFirestationNumber;
 	}
+	
+	public Firestation getFirestationByAddress(String address)
+	{
+		Firestation firestation = firestationRepository.findFirestationByAddress(address);
+
+		return firestation;
+	}
 }
