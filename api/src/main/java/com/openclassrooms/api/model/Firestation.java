@@ -22,7 +22,16 @@
 	    
 	    private String station;
 
-
+public Firestation( Long id, String address, String station)
+{
+	this.id = id;
+	this.address = address;
+	this.station = station;
+}
+public Firestation()
+{
+	
+}
 
 	}
 	
