@@ -70,33 +70,48 @@ public class FirestationControllerTest {
 
     @MockBean
     private FirestationService firestationServiceMock;
-
-  /*  @MockBean
-    private Firestation firestationMock; */
+    
+    private Firestation mockFirestation() {
+    	Firestation firestationMock = new Firestation();
+    	firestationMock.setAddress("1509 Culver St");
+    	firestationMock.setStation("3");
+    	return firestationMock;
+    }
+    private Firestation mockFirestation1() {
+    	Firestation firestationMock1 = new Firestation();
+    	firestationMock1.setAddress("salut");
+    	firestationMock1.setStation("77");
+    	return firestationMock1;
+    }
+    
+    private long id1=0;
+	private long id2=1;
+	private long id3=50;
+    
     
     @Test
     public void testGetFirestation() throws Exception {
     	
-    	Firestation firestationMock= new Firestation();
-    	Firestation firestationMock1= new Firestation();
-    	firestationMock.setAddress("1509 Culver St");
-    	firestationMock.setStation("3");
-    	firestationMock1.setAddress("salut");
-    	firestationMock1.setStation("77");
+
+    	
+    	Firestation firestationMock = mockFirestation();
+    	Firestation firestationMock1 = mockFirestation1();
+    	
     	Optional<Firestation> firestationOptionalMock = Optional.ofNullable(firestationMock);
     	Optional<Firestation> firestationOptionalMock1 = Optional.ofNullable(firestationMock1);
-    	long id1=0;
-    	long id2=1;	
+    
     	
     	when(firestationServiceMock.getFirestation(id1)).thenReturn(firestationOptionalMock);
     	when(firestationServiceMock.getFirestation(id2)).thenReturn(firestationOptionalMock1);
     	
     	mockMvc.perform(get("/firestation/{id}",0)).andExpect(status().isOk())
-          .andExpect(jsonPath("$..address").value("1509 Culver St"))
-          .andExpect(jsonPath("$..station").value("3"));
+          .andExpect(jsonPath("$.address").value("1509 Culver St"))
+          .andExpect(jsonPath("$.station").value("3"));
+    	
     	mockMvc.perform(get("/firestation/{id}",1)).andExpect(status().isOk())
-       		   .andExpect(jsonPath("$..address").value("salut"))
-       	       .andExpect(jsonPath("$..station").value("77"));
+       		   .andExpect(jsonPath("$.address").value("salut"))
+       	       .andExpect(jsonPath("$.station").value("77"));
+    	
     	verify(firestationServiceMock).getFirestation(id1);
         verify(firestationServiceMock).getFirestation(id2);
     	
@@ -105,12 +120,11 @@ public class FirestationControllerTest {
     
     @Test
     public void testGetFirestations() throws Exception {
-    	Firestation firestationMock= new Firestation();
-    	Firestation firestationMock1= new Firestation();
-    	firestationMock.setAddress("1509 Culver St");
-    	firestationMock.setStation("3");
-    	firestationMock1.setAddress("salut");
-    	firestationMock1.setStation("77");
+
+    	
+    	Firestation firestationMock = mockFirestation();
+    	Firestation firestationMock1 = mockFirestation1();
+    	
     	List<Firestation> listOfFirestation = new ArrayList<>();
     	listOfFirestation.add(firestationMock);
     	listOfFirestation.add(firestationMock1); 
@@ -121,133 +135,98 @@ public class FirestationControllerTest {
      mockMvc.perform(get("/firestations")).andExpect(status().isOk())
        .andExpect(jsonPath("$[0].address", is("1509 Culver St")))
        .andExpect(jsonPath("$[0].station", is("3")))
-    		   .andExpect(jsonPath("$[1].address", is("salut")))
-    	       .andExpect(jsonPath("$[1].station", is("77")));
-     verify(firestationServiceMock).getFirestations();
-     //assertThat
-       //verify(firestationService).getFirestations();      
-    //   mockMvc.perform(get("/firestations")).andExpect(status().isOk());         
+       .andExpect(jsonPath("$[1].address", is("salut")))
+       .andExpect(jsonPath("$[1].station", is("77")));
+     
+     	verify(firestationServiceMock).getFirestations();
+        
     }
     
     @Test
     public void testDeleteFirestation() throws Exception{
-    
-    	Firestation firestationMock= new Firestation();
-    	Firestation firestationMock1= new Firestation();
-    	firestationMock.setAddress("1509 Culver St");
-    	firestationMock.setStation("3");
-    	firestationMock1.setAddress("salut");
-    	firestationMock1.setStation("77");
-    	List<Firestation> listOfFirestation = new ArrayList<>();
-    	listOfFirestation.add(firestationMock);
-    	listOfFirestation.add(firestationMock1); 
-    	Iterable<Firestation> listOfFirestationTest = listOfFirestation;
-    	long id2  = 1;
-    	when(firestationServiceMock.getFirestations()).thenReturn(listOfFirestationTest);
-    	
-        mockMvc.perform(get("/firestations")).andExpect(status().isOk())
-        .andExpect(jsonPath("$[0].address", is("1509 Culver St")))
-        .andExpect(jsonPath("$[0].station", is("3")))
-     		   .andExpect(jsonPath("$[1].address", is("salut")))
-     	       .andExpect(jsonPath("$[1].station", is("77")));
         
-     mockMvc.perform(delete("/firestation/{id}",1)).andExpect(status().isNoContent());
+     mockMvc.perform(delete("/firestation/{id}",id2)).andExpect(status().isNoContent());
      verify(firestationServiceMock).deleteFirestation(id2);
-     mockMvc.perform(get("/firestation/{id}",1)).andExpect(status().isNotFound());
 
     }
     
     @Test
-    public void testCreateFirestation() throws Exception{
+    public void testGetFirestationUnknownId() throws Exception{
+    	
+    mockMvc.perform(get("/firestation/{id}",id3)).andExpect(status().isNotFound());
+    verify(firestationServiceMock).getFirestation(id3);
     
-    	Firestation firestationMock= new Firestation();
-    	Firestation firestationMock1= new Firestation();
-    	firestationMock.setAddress("1509 Culver St");
-    	firestationMock.setStation("3");
-    	firestationMock1.setAddress("salut");
-    	firestationMock1.setStation("77");
+    }
+    
+    @Test
+    public void testCreateFirestation() throws Exception{
+
+    	
+    	Firestation firestationMock = mockFirestation();
+    	Firestation firestationMock1 = mockFirestation1();
+    	
     	List<Firestation> listOfFirestation = new ArrayList<>();
      	listOfFirestation.add(firestationMock);
-    //	listOfFirestation.add(firestationMock1); 
-    	//Iterable<Firestation> listOfFirestationTest = listOfFirestation;
+
     	ObjectMapper mapper = new ObjectMapper();
      	String json =  mapper.writeValueAsString(firestationMock1);
      	
-    	when(firestationServiceMock.getFirestations()).thenReturn(listOfFirestation);
+ 
     	when(firestationServiceMock.saveFirestation(firestationMock1)).thenReturn(firestationMock1);
-    	
-     mockMvc.perform(get("/firestations")).andExpect(status().isOk())
-     .andExpect(jsonPath("$[0].address", is("1509 Culver St")))
-     .andExpect(jsonPath("$[0].station", is("3")));
      
      mockMvc.perform(post("/firestation")
     		 .contentType(MediaType.APPLICATION_JSON)
     		 .accept(MediaType.APPLICATION_JSON)
     		 .content(json))
      		 .andExpect(status().isCreated())
-     		 .andExpect(jsonPath("$..address").value("salut"))
-       	     .andExpect(jsonPath("$..station").value("77"));;
+     		 .andExpect(jsonPath("$.address").value("salut"))
+       	     .andExpect(jsonPath("$.station").value("77"));;
      
      verify(firestationServiceMock).saveFirestation(firestationMock1);
      
- /*    mockMvc.perform(get("/firestations")).andExpect(status().isOk())
-       .andExpect(jsonPath("$[0].address", is("1509 Culver St")))
-       .andExpect(jsonPath("$[0].station", is("3")))
-    		   .andExpect(jsonPath("$[1].address", is("salut"))) // No result for path $[1][adress]
-    	       .andExpect(jsonPath("$[1].station", is("77"))); */
-     
-     verify(firestationServiceMock).saveFirestation(firestationMock1);
     }
 
     @Test
     public void updateFirestationTest() throws Exception
     {
-      	Firestation firestationMock= new Firestation();
-    	Firestation firestationMock1= new Firestation();
-    	firestationMock.setAddress("1509 Culver St");
-    	firestationMock.setStation("3");
-    	firestationMock1.setAddress("salut");
-    	firestationMock1.setStation("77");
-    	List<Firestation> listOfFirestation = new ArrayList<>();
-     	listOfFirestation.add(firestationMock);
-     	
+
+    	Firestation firestationMock1 = mockFirestation1();
+  	
      	Optional<Firestation> firestationOptionalMock1 = Optional.ofNullable(firestationMock1);
      	
-    //	listOfFirestation.add(firestationMock1); 
-    	//Iterable<Firestation> listOfFirestationTest = listOfFirestation;
     	ObjectMapper mapper = new ObjectMapper();
      	String json =  mapper.writeValueAsString(firestationMock1);
-     	long id1 = 0;
-    	when(firestationServiceMock.getFirestations()).thenReturn(listOfFirestation);
-    	//when(firestationServiceMock.saveFirestation(firestationMock1)).thenReturn(firestationMock1);
-    	  when(firestationServiceMock.updateFirestation(id1,firestationMock1)).thenReturn(firestationOptionalMock1);
    
-    	  mockMvc.perform(get("/firestations")).andExpect(status().isOk())
-     .andExpect(jsonPath("$[0].address", is("1509 Culver St")))
-     .andExpect(jsonPath("$[0].station", is("3")));
-     
-     mockMvc.perform(put("/firestation/{id}",0)
+    	when(firestationServiceMock.updateFirestation(id1,firestationMock1)).thenReturn(firestationOptionalMock1);
+   
+     mockMvc.perform(put("/firestation/{id}",id1)
     		 .content(json)
     		 .contentType(MediaType.APPLICATION_JSON)
     		 .accept(MediaType.APPLICATION_JSON))
      		 .andExpect(status().isOk())
-     		 .andExpect(jsonPath("$..address").value("salut"))
-       	     .andExpect(jsonPath("$..station").value("77"));
+     		 .andExpect(jsonPath("$.address").value("salut"))
+       	     .andExpect(jsonPath("$.station").value("77"));
        	
        	  verify(firestationServiceMock).updateFirestation(id1,firestationMock1);
-       	  
-   /*    	     mockMvc.perform(get("/firestations")).andExpect(status().isOk())
-       	     .andExpect(jsonPath("$[0].address", is("salut")))                 // POURQUOI CA MARCHE PAS ????
-       	     .andExpect(jsonPath("$[0].station", is("77"))); */
-   
-       	     
- /*    mockMvc.perform(get("/firestations")).andExpect(status().isOk())
-       .andExpect(jsonPath("$[0].address", is("1509 Culver St")))
-       .andExpect(jsonPath("$[0].station", is("3")))
-    		   .andExpect(jsonPath("$[1].address", is("salut"))) // No result for path $[1][adress]
-    	       .andExpect(jsonPath("$[1].station", is("77"))); */
-     
-  //   verify(firestationServiceMock).saveFirestation(firestationMock1);
+    
+    }
+    
+    @Test
+    public void updateFirestationNotFoundTest() throws Exception
+    {
 
+    	Firestation firestationMock = mockFirestation();
+     	
+    	ObjectMapper mapper = new ObjectMapper();
+     	String json =  mapper.writeValueAsString(firestationMock);
+   
+     mockMvc.perform(put("/firestation/{id}",id1)
+    		 .content(json)
+    		 .contentType(MediaType.APPLICATION_JSON)
+    		 .accept(MediaType.APPLICATION_JSON))
+     		 .andExpect(status().isNotFound());
+       	
+       	  verify(firestationServiceMock).updateFirestation(id1,firestationMock);
+    
     }
 }

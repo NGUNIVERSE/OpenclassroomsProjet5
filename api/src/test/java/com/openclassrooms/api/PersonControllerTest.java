@@ -41,9 +41,6 @@ public class PersonControllerTest {
 
     @MockBean
     private PersonService personServiceMock;
-
-  /*  @MockBean
-    private Medicalrecord medicalrecordMock; */
     
 	private Person mockPerson() {
 		Person personMock= new Person();
@@ -77,8 +74,7 @@ public class PersonControllerTest {
     @Test
     public void testGetPerson() throws Exception {
     	
-    	Person personMock = mockPerson();
-    	
+    	Person personMock = mockPerson();   	
     	Person personMock1 = mockPerson1();
     	
     	Optional<Person> personOptionalMock = Optional.ofNullable(personMock);
@@ -102,9 +98,9 @@ public class PersonControllerTest {
         .andExpect(jsonPath("$.lastname").value("Peters"))
         .andExpect(jsonPath("$.address").value("112 Steppes Pl"))
         .andExpect(jsonPath("$.city").value("Culver"))
-  	  .andExpect(jsonPath("$.zip").value("97451"))
+  	    .andExpect(jsonPath("$.zip").value("97451"))
         .andExpect(jsonPath("$.phone").value("841-874-8888"))
-  	  .andExpect(jsonPath("$.email").value("jpeter@email.com"));
+  	    .andExpect(jsonPath("$.email").value("jpeter@email.com"));
     	
     	verify(personServiceMock).getPerson(id1);
         verify(personServiceMock).getPerson(id2);
@@ -113,9 +109,9 @@ public class PersonControllerTest {
     
     
     @Test
-    public void testPersons() throws Exception {
+    public void testGetPersons() throws Exception {
+   
     	Person personMock = mockPerson();
-    	
     	Person personMock1 = mockPerson1();
     	
     	List<Person> listOfPerson = new ArrayList<>();
@@ -130,41 +126,32 @@ public class PersonControllerTest {
     .andExpect(jsonPath("$[0].lastname", is("Walker")))
     .andExpect(jsonPath("$[0].address", is("908 73rd St")))
     .andExpect(jsonPath("$[0].city", is("Culver")))
-	  .andExpect(jsonPath("$[0].zip", is("97451")))
+	.andExpect(jsonPath("$[0].zip", is("97451")))
     .andExpect(jsonPath("$[0].phone", is("841-874-8547")))
-	  .andExpect(jsonPath("$[0].email", is("reg@email.com")))
+	.andExpect(jsonPath("$[0].email", is("reg@email.com")))
 	.andExpect(jsonPath("$[1].firstname", is("Ron")))
-  .andExpect(jsonPath("$[1].lastname", is("Peters")))
-  .andExpect(jsonPath("$[1].address", is("112 Steppes Pl")))
-  .andExpect(jsonPath("$[1].city", is("Culver")))
-  .andExpect(jsonPath("$[1].zip", is("97451")))
-  .andExpect(jsonPath("$[1].phone", is("841-874-8888")))
-  .andExpect(jsonPath("$[1].email", is("jpeter@email.com")));
+    .andExpect(jsonPath("$[1].lastname", is("Peters")))
+    .andExpect(jsonPath("$[1].address", is("112 Steppes Pl")))
+    .andExpect(jsonPath("$[1].city", is("Culver")))
+    .andExpect(jsonPath("$[1].zip", is("97451")))
+    .andExpect(jsonPath("$[1].phone", is("841-874-8888")))
+    .andExpect(jsonPath("$[1].email", is("jpeter@email.com")));
      
      verify(personServiceMock).getPersons();
-     //assertThat
-       //verify(firestationService).getFirestations();      
-    //   mockMvc.perform(get("/firestations")).andExpect(status().isOk());         
+        
     }
     
     @Test
     public void testDeletePerson() throws Exception{
 
-
-    	
-
-     mockMvc.perform(delete("/person/{id}",1)).andExpect(status().isNoContent());
+     mockMvc.perform(delete("/person/{id}",id2)).andExpect(status().isNoContent());
      verify(personServiceMock).deletePerson(id2);
-
 
     }
     
     @Test 
     public void testGetPersonUnknownId() throws Exception{
     	
-    		
-    	
-
      mockMvc.perform(get("/person/{id}",id3)).andExpect(status().isNotFound());
      verify(personServiceMock).getPerson(id3);
     }
@@ -179,8 +166,7 @@ public class PersonControllerTest {
     	
     	List<Person> listOfPerson = new ArrayList<>();
     	listOfPerson.add(personMock);
-    //	listOfFirestation.add(firestationMock1); 
-    	//Iterable<Firestation> listOfFirestationTest = listOfFirestation;
+
     	ObjectMapper mapper = new ObjectMapper();
      	String json =  mapper.writeValueAsString(personMock1);
      	
@@ -209,23 +195,15 @@ public class PersonControllerTest {
     {
     	
     	Person personMock1 = mockPerson1();
-    
       	
-    	Optional<Person> personOptionalMock = Optional.ofNullable(personMock1);
+    	Optional<Person> personOptionalMock1 = Optional.ofNullable(personMock1);
     	
-
-     	
-    //	listOfFirestation.add(firestationMock1); 
-    	//Iterable<Firestation> listOfFirestationTest = listOfFirestation;
     	ObjectMapper mapper = new ObjectMapper();
      	String json =  mapper.writeValueAsString(personMock1);
 
-    
-    	//when(firestationServiceMock.saveFirestation(firestationMock1)).thenReturn(firestationMock1);
-    	  when(personServiceMock.updatePerson(id1,personMock1)).thenReturn(personOptionalMock);
+    	  when(personServiceMock.updatePerson(id1,personMock1)).thenReturn(personOptionalMock1);
    
-     
-    		 mockMvc.perform(put("/person/{id}",0)
+    		 mockMvc.perform(put("/person/{id}",id1)
     	    		 .contentType(MediaType.APPLICATION_JSON)
     	    		 .accept(MediaType.APPLICATION_JSON)
     	    		 .content(json))
@@ -238,8 +216,7 @@ public class PersonControllerTest {
     	             .andExpect(jsonPath("$.phone").value("841-874-8888"))
     	             .andExpect(jsonPath("$.email").value("jpeter@email.com"));
        	
-       	  verify(personServiceMock).updatePerson(id1,personMock1);
-       	  
+       	  verify(personServiceMock).updatePerson(id1,personMock1);  
 
     }
     
@@ -249,25 +226,17 @@ public class PersonControllerTest {
     	
     	Person personMock = mockPerson();
     
-
-    
-    //	listOfFirestation.add(firestationMock1); 
-    	//Iterable<Firestation> listOfFirestationTest = listOfFirestation;
     	ObjectMapper mapper = new ObjectMapper();
      	String json =  mapper.writeValueAsString(personMock);
 
-    
-    	//when(firestationServiceMock.saveFirestation(firestationMock1)).thenReturn(firestationMock1);
      
-    		 mockMvc.perform(put("/person/{id}",0)
+    		 mockMvc.perform(put("/person/{id}",id1)
     	    		 .contentType(MediaType.APPLICATION_JSON)
     	    		 .accept(MediaType.APPLICATION_JSON)
     	    		 .content(json))
     	     		 .andExpect(status().isNotFound());
-
        	
-       	  verify(personServiceMock).updatePerson(0L,personMock);  // caster un entier en Long 0L
-       	  
+       	  verify(personServiceMock).updatePerson(0L,personMock);  // caster un entier en Long 0L   	  
 
     }
 
