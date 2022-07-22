@@ -41,6 +41,10 @@ public class PersonCovered {
 		this.nombreAdulte = 0;
 		this.nombreEnfant = 0;
 	}
+	public PersonCovered()
+	{
+		
+	}
 
 
 }
