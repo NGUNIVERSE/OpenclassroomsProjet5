@@ -124,16 +124,37 @@ public class SafetyAlertControllerTest {
     	when(safetyAlertServiceMock.getPhoneNumberOfPersonByFirestation(station)).thenReturn(phone);
     	    	
     	mockMvc.perform(get("/phoneAlert?firestation=" + 1))
-    	.andDo(print())
-    	.andExpect(status().isOk())
-          .andExpect(jsonPath("$",Matchers.hasSize(2)))  //.andExpect(jsonPath("$.size()").value(2))
-          .andExpect(jsonPath("$[0]").value("000-000-000"))
-          .andExpect(jsonPath("$[1]").value("111-111-111"));
+    		.andDo(print())
+    		.andExpect(status().isOk())
+    		.andExpect(jsonPath("$",Matchers.hasSize(2)))  //.andExpect(jsonPath("$.size()").value(2))
+    		.andExpect(jsonPath("$[0]").value("000-000-000"))
+    		.andExpect(jsonPath("$[1]").value("111-111-111"));
 
     	verify(safetyAlertServiceMock).getPhoneNumberOfPersonByFirestation(station);
 
       }
     
+    @Test
+    public void listOfChildAtAnAddressTest() throws Exception{
+    	
+    }
+    
+    @Test
+    public void listOfPersonCoveredByFirestationTest() throws Exception{
+    	
+    }
+    @Test
+    public void listOfPersonLivingAtAnAddressTest() throws Exception{
+    	
+    }
+    @Test
+    public void informationAboutPersonTest() throws Exception{
+    	
+    }
+    @Test
+    public void listOfHomeDeservedByFirestationTest() throws Exception{
+    	
+    }
     
 //    @Test
 //    public void testGetFirestations() throws Exception {

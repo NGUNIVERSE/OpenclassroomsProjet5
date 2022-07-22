@@ -79,6 +79,7 @@ public class PersonController {
 	
 	/************************************ URL ALERT *******************************/
 	
+	//http://localhost:8080/communityEmail?city=<city>
     @GetMapping("/communityEmail")
     public List<Email> listOfEmailByCity(@RequestParam("city") String city) {
         return personService.getEmailPerCity(city);

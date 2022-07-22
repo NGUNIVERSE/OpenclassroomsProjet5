@@ -30,6 +30,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.openclassrooms.api.controller.MedicalrecordController;
 import com.openclassrooms.api.controller.PersonController;
+import com.openclassrooms.api.model.Email;
 import com.openclassrooms.api.model.Person;
 import com.openclassrooms.api.service.PersonService;
 
@@ -84,7 +85,7 @@ public class PersonControllerTest {
     	when(personServiceMock.getPerson(id1)).thenReturn(personOptionalMock);
     	when(personServiceMock.getPerson(id2)).thenReturn(personOptionalMock1);
     	
-    	mockMvc.perform(get("/person/{id}",0)).andExpect(status().isOk())
+    	mockMvc.perform(get("/person/{id}",id1)).andExpect(status().isOk())
           .andExpect(jsonPath("$.firstname").value("Reginold"))
           .andExpect(jsonPath("$.lastname").value("Walker"))
           .andExpect(jsonPath("$.address").value("908 73rd St"))
@@ -93,7 +94,7 @@ public class PersonControllerTest {
           .andExpect(jsonPath("$.phone").value("841-874-8547"))
     	  .andExpect(jsonPath("$.email").value("reg@email.com"));
     	  
-    	mockMvc.perform(get("/person/{id}",1)).andExpect(status().isOk())
+    	mockMvc.perform(get("/person/{id}",id2)).andExpect(status().isOk())
         .andExpect(jsonPath("$.firstname").value("Ron"))
         .andExpect(jsonPath("$.lastname").value("Peters"))
         .andExpect(jsonPath("$.address").value("112 Steppes Pl"))
@@ -181,9 +182,9 @@ public class PersonControllerTest {
              .andExpect(jsonPath("$.lastname").value("Peters"))
              .andExpect(jsonPath("$.address").value("112 Steppes Pl"))
              .andExpect(jsonPath("$.city").value("Culver"))
-       	  .andExpect(jsonPath("$.zip").value("97451"))
+             .andExpect(jsonPath("$.zip").value("97451"))
              .andExpect(jsonPath("$.phone").value("841-874-8888"))
-       	  .andExpect(jsonPath("$.email").value("jpeter@email.com"));
+             .andExpect(jsonPath("$.email").value("jpeter@email.com"));
      
      verify(personServiceMock).savePerson(personMock1);
      
@@ -240,6 +241,27 @@ public class PersonControllerTest {
 
     }
 
+    @Test
+    public void listOfEmailByCityTest() throws Exception{
+    	
+    	List<Email> listOfEmail = new ArrayList<>();
+    	String cityMock = "Culver";
+    	Email emailMock = new Email();
+    	emailMock.setCity("Culver");
+    	emailMock.setEmail("jpeter@email.com");
+    	Email emailMock1 = new Email();
+    	emailMock1.setCity("Culver");
+    	emailMock1.setEmail("reg@email.com");
+    	listOfEmail.add(emailMock);
+    	listOfEmail.add(emailMock1);
 
+    	when(personServiceMock.getEmailPerCity(cityMock)).thenReturn(listOfEmail);
+    	
+    	mockMvc.perform(get("/communityEmail?city="+cityMock)).andExpect(status().isOk())
+        .andExpect(jsonPath("$[0].email",is("jpeter@email.com")))
+        .andExpect(jsonPath("$[1].email",is("reg@email.com")));
+    	
+    	verify(personServiceMock).getEmailPerCity(cityMock);
+    }
 
 }

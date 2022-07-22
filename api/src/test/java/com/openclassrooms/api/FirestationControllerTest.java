@@ -104,11 +104,11 @@ public class FirestationControllerTest {
     	when(firestationServiceMock.getFirestation(id1)).thenReturn(firestationOptionalMock);
     	when(firestationServiceMock.getFirestation(id2)).thenReturn(firestationOptionalMock1);
     	
-    	mockMvc.perform(get("/firestation/{id}",0)).andExpect(status().isOk())
+    	mockMvc.perform(get("/firestation/{id}",id1)).andExpect(status().isOk())
           .andExpect(jsonPath("$.address").value("1509 Culver St"))
           .andExpect(jsonPath("$.station").value("3"));
     	
-    	mockMvc.perform(get("/firestation/{id}",1)).andExpect(status().isOk())
+    	mockMvc.perform(get("/firestation/{id}",id2)).andExpect(status().isOk())
        		   .andExpect(jsonPath("$.address").value("salut"))
        	       .andExpect(jsonPath("$.station").value("77"));
     	
