@@ -90,7 +90,7 @@ public class SafetyAlertControllerTest {
     public void setup()
     {
     	MockitoAnnotations.openMocks(this);
-    	this.mockMvc = MockMvcBuilders.standaloneSetup(safetyAlertController).build();
+    	this.mockMvc = MockMvcBuilders.standaloneSetup(safetyAlertController).build(); // Remplace @WebMvcTest(controllers = SafetyAlertController.class) en évitant de charger tout le contexte gain de temps 
     }
     
     

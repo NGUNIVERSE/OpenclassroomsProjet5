@@ -45,7 +45,34 @@ public class PersonControllerTest {
   /*  @MockBean
     private Medicalrecord medicalrecordMock; */
     
-    
+	private Person mockPerson() {
+		Person personMock= new Person();
+
+		personMock.setFirstname("Reginold");
+    	personMock.setLastname("Walker");
+    	personMock.setAddress("908 73rd St");
+    	personMock.setCity("Culver");
+    	personMock.setZip("97451");
+    	personMock.setPhone("841-874-8547");
+    	personMock.setEmail("reg@email.com");
+		return personMock;
+	}
+	private Person mockPerson1() {
+		Person personMock1= new Person();
+    	personMock1.setFirstname("Ron");
+      	personMock1.setLastname("Peters");
+      	personMock1.setAddress("112 Steppes Pl");
+      	personMock1.setCity("Culver");
+      	personMock1.setZip("97451");
+      	personMock1.setPhone("841-874-8888");
+      	personMock1.setEmail("jpeter@email.com");
+		return personMock1;
+	}
+
+	private long id1=0;
+	private long id2=1;	
+	private long id3=50;
+	
     
     @Test
     public void testGetPerson() throws Exception {
@@ -56,8 +83,7 @@ public class PersonControllerTest {
     	
     	Optional<Person> personOptionalMock = Optional.ofNullable(personMock);
     	Optional<Person> personOptionalMock1 = Optional.ofNullable(personMock1);
-    	long id1=0;
-    	long id2=1;	
+    
     	
     	when(personServiceMock.getPerson(id1)).thenReturn(personOptionalMock);
     	when(personServiceMock.getPerson(id2)).thenReturn(personOptionalMock1);
@@ -124,7 +150,7 @@ public class PersonControllerTest {
     @Test
     public void testDeletePerson() throws Exception{
 
-    	long id2=1;	
+
     	
 
      mockMvc.perform(delete("/person/{id}",1)).andExpect(status().isNoContent());
@@ -136,7 +162,7 @@ public class PersonControllerTest {
     @Test 
     public void testGetPersonUnknownId() throws Exception{
     	
-    	long id3=50;	
+    		
     	
 
      mockMvc.perform(get("/person/{id}",id3)).andExpect(status().isNotFound());
@@ -178,18 +204,6 @@ public class PersonControllerTest {
     }
 
 
-	private Person mockPerson1() {
-		Person personMock1= new Person();
-    	personMock1.setFirstname("Ron");
-      	personMock1.setLastname("Peters");
-      	personMock1.setAddress("112 Steppes Pl");
-      	personMock1.setCity("Culver");
-      	personMock1.setZip("97451");
-      	personMock1.setPhone("841-874-8888");
-      	personMock1.setEmail("jpeter@email.com");
-		return personMock1;
-	}
-
     @Test
     public void updatePersonTest() throws Exception
     {
@@ -199,8 +213,7 @@ public class PersonControllerTest {
       	
     	Optional<Person> personOptionalMock = Optional.ofNullable(personMock1);
     	
-    	long id1=0;
-    	long id2=1;	
+
      	
     //	listOfFirestation.add(firestationMock1); 
     	//Iterable<Firestation> listOfFirestationTest = listOfFirestation;
@@ -221,9 +234,9 @@ public class PersonControllerTest {
     	             .andExpect(jsonPath("$.lastname").value("Peters"))
     	             .andExpect(jsonPath("$.address").value("112 Steppes Pl"))
     	             .andExpect(jsonPath("$.city").value("Culver"))
-    	       	  .andExpect(jsonPath("$.zip").value("97451"))
+    	       	     .andExpect(jsonPath("$.zip").value("97451"))
     	             .andExpect(jsonPath("$.phone").value("841-874-8888"))
-    	       	  .andExpect(jsonPath("$.email").value("jpeter@email.com"));
+    	             .andExpect(jsonPath("$.email").value("jpeter@email.com"));
        	
        	  verify(personServiceMock).updatePerson(id1,personMock1);
        	  
@@ -236,7 +249,7 @@ public class PersonControllerTest {
     	
     	Person personMock = mockPerson();
     
-      	long id1 = 0 ;
+
     
     //	listOfFirestation.add(firestationMock1); 
     	//Iterable<Firestation> listOfFirestationTest = listOfFirestation;
@@ -259,16 +272,5 @@ public class PersonControllerTest {
     }
 
 
-	private Person mockPerson() {
-		Person personMock= new Person();
 
-		personMock.setFirstname("Reginold");
-    	personMock.setLastname("Walker");
-    	personMock.setAddress("908 73rd St");
-    	personMock.setCity("Culver");
-    	personMock.setZip("97451");
-    	personMock.setPhone("841-874-8547");
-    	personMock.setEmail("reg@email.com");
-		return personMock;
-	}
 }

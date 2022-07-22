@@ -16,6 +16,7 @@ public class InitDbConfiguration {
 	public void initDb()
 	{
 		LOGGER.info("testInitDb");
+		
 	}
 
 }
