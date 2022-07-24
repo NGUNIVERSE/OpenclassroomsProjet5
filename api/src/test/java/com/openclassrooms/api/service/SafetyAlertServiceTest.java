@@ -39,6 +39,9 @@ public class SafetyAlertServiceTest {
 	@Mock
 	private MedicalrecordService medicalrecordServiceMock;
 	
+	@Mock
+	private SafetyAlertService safetyAlertServiceMock;
+	
 	@InjectMocks
 	private SafetyAlertService safetyAlertService;
 	
@@ -66,6 +69,60 @@ public class SafetyAlertServiceTest {
       	personMock1.setEmail("jpeter@email.com");
 		return personMock1;
 	}
+	private Person mockPerson2() {
+		Person personMock2= new Person();
+    	personMock2.setFirstname("Junior");
+      	personMock2.setLastname("Junior");
+      	personMock2.setAddress("112 Steppes Pl");
+      	personMock2.setCity("Culver");
+      	personMock2.setZip("97451");
+      	personMock2.setPhone("841-874-8888");
+      	personMock2.setEmail("junior@email.com");
+		return personMock2;
+	}
+	
+private Medicalrecord mockMedicalrecord() {   	
+    	Medicalrecord medicalrecordMock = new Medicalrecord();
+    	medicalrecordMock.setFirstname("Reginold");
+    	medicalrecordMock.setLastname("Walker");
+    	medicalrecordMock.setBirthdate("08/30/1979");
+    	medicalrecordMock.setMedications("thradox:700mg");
+    	medicalrecordMock.setAllergies("illisoxian");
+    	return medicalrecordMock;
+    }
+
+private Medicalrecord mockMedicalrecord1() {
+	
+	Medicalrecord medicalrecordMock1 = new Medicalrecord();
+	medicalrecordMock1.setFirstname("Ron");
+	medicalrecordMock1.setLastname("Peters");
+	medicalrecordMock1.setBirthdate("04/06/1965");
+	medicalrecordMock1.setMedications("");
+	medicalrecordMock1.setAllergies("");
+	return medicalrecordMock1;
+}
+
+private Medicalrecord mockMedicalrecord2() {   	
+	Medicalrecord medicalrecordMock2 = new Medicalrecord();
+	medicalrecordMock2.setFirstname("Junior");
+	medicalrecordMock2.setLastname("Junior");
+	medicalrecordMock2.setBirthdate("01/01/2020");
+	medicalrecordMock2.setMedications("thradox:700mg");
+	medicalrecordMock2.setAllergies("illisoxian");
+	return medicalrecordMock2;
+}
+private Firestation mockFirestation() {
+	Firestation firestationMock = new Firestation();
+	firestationMock.setAddress("1509 Culver St");
+	firestationMock.setStation("3");
+	return firestationMock;
+}
+private Firestation mockFirestation1() {
+	Firestation firestationMock1 = new Firestation();
+	firestationMock1.setAddress("salut");
+	firestationMock1.setStation("77");
+	return firestationMock1;
+}
 
 		
 	 @Test
@@ -103,41 +160,58 @@ public class SafetyAlertServiceTest {
     	assertThat(result).isEqualTo(phone);
       }
 	 
-	 /*   
+ 
     @Test
-    public void listOfChildAtAnAddressTest() throws Exception{
+    public void getChildListFromAnAddressTest() throws Exception{
     	
     	Person personMock = mockPerson();
     	Person personMock1 = mockPerson1();
+    	Person personMock2 = mockPerson2();
+    	long age = 2;
     	String addressMock = "Culver";
     	List<Person> listOfPerson = new ArrayList<>();
     	listOfPerson.add(personMock);
     	listOfPerson.add(personMock1);
+    	listOfPerson.add(personMock2);
     	
-    	Child childMock = new Child("roger","rabbit",20,listOfPerson);
-    	Child childMock1 = new Child("babar","fox",30,listOfPerson);
+    	Medicalrecord medicalrecordMock = mockMedicalrecord();
+    	Medicalrecord medicalrecordMock1 = mockMedicalrecord1();
+    	Medicalrecord medicalrecordMock2 = mockMedicalrecord2();
+    	
+    	Child childMock = new Child("Junior","Junior",2,listOfPerson);
+
     	List<Child> listOfChild = new ArrayList<>();
     	listOfChild.add(childMock);
-    	listOfChild.add(childMock1);
+
+    	when(personServiceMock.getPersonPerAddress(addressMock)).thenReturn(listOfPerson);
+    	when(medicalrecordServiceMock.findMedicalrecordByFirstnameAndLastname(personMock.getFirstname(), personMock.getLastname())).thenReturn(medicalrecordMock);
+    	when(medicalrecordServiceMock.findMedicalrecordByFirstnameAndLastname(personMock1.getFirstname(), personMock1.getLastname())).thenReturn(medicalrecordMock1);
+    	when(medicalrecordServiceMock.findMedicalrecordByFirstnameAndLastname(personMock2.getFirstname(), personMock2.getLastname())).thenReturn(medicalrecordMock2);
+   // 	when(safetyAlertServiceMock.getAge("01/01/2020")).thenReturn(age);
     	
-    	when(safetyAlertServiceMock.getChildListFromAnAddress(addressMock)).thenReturn(listOfChild);
+    	List<Child> result = safetyAlertService.getChildListFromAnAddress(addressMock);	
     	
-    	mockMvc.perform(get("/childAlert?address=" + addressMock))
-    		.andExpect(status().isOk())
-    		.andExpect(jsonPath("[0].firstname", is("roger")))
-    		.andExpect(jsonPath("[0].lastname", is("rabbit")))
-    		.andExpect(jsonPath("[0].age", is(20)))
-    	//	.andExpect(jsonPath("[0].homeMembres", is(listOfPerson)))   // Problem avec les tableaux
-    		.andExpect(jsonPath("[1].firstname", is("babar")))
-    		.andExpect(jsonPath("[1].lastname", is("fox")))
-    		.andExpect(jsonPath("[1].age", is(30)));
-    	//	.andExpect(jsonPath("[1].homeMembres", is(listOfPerson)));   // Problem avec les tableaux
-    		
-    	verify(safetyAlertServiceMock).getChildListFromAnAddress(addressMock);
+    	verify(personServiceMock).getPersonPerAddress(addressMock);
+    	verify(medicalrecordServiceMock).findMedicalrecordByFirstnameAndLastname(personMock.getFirstname(), personMock.getLastname());
+    	verify(medicalrecordServiceMock).findMedicalrecordByFirstnameAndLastname(personMock1.getFirstname(), personMock1.getLastname());
+    	verify(medicalrecordServiceMock).findMedicalrecordByFirstnameAndLastname(personMock2.getFirstname(), personMock2.getLastname());
+  //  	verify(safetyAlertServiceMock).getAge("01/01/2020"); // n'est pas invoqué probleme pour le calcul de l'age (répétabilité du test unitaire)
+    	
+    	assertThat(result).isEqualTo(listOfChild);
     }
-    
+@Test
+public void getAgeTest() throws Exception
+{
+	String dateMock ="01/01/2020";
+	long age = 2;
+	long result = safetyAlertService.getAge(dateMock);
+	
+	assertThat(result).isEqualTo(age);    // revoir ce test même probleme que précédemment sur la répétabilité du test dans le temps
+		
+}
+	  
     @Test
-    public void listOfPersonCoveredByFirestationTest() throws Exception{
+    public void getPersonCoveredByFirestationTest() throws Exception{
     	
       	PersonCovered personCoveredMock = new PersonCovered();
       	personCoveredMock.setFirstname("Reginold");
@@ -145,173 +219,196 @@ public class SafetyAlertServiceTest {
     	personCoveredMock.setAddress("908 73rd St");
     	personCoveredMock.setPhoneNumber("841-874-8547");
     	personCoveredMock.setNombreEnfant(0);
-    	personCoveredMock.setNombreAdulte(0);
+    	personCoveredMock.setNombreAdulte(2);
       	PersonCovered personCoveredMock1 = new PersonCovered();
       	personCoveredMock1.setFirstname("Ron");
     	personCoveredMock1.setLastname("Peters");
-    	personCoveredMock1.setAddress("112 Steppes P1");
+    	personCoveredMock1.setAddress("112 Steppes Pl");
     	personCoveredMock1.setPhoneNumber("841-874-8888");
-    	personCoveredMock1.setNombreEnfant(1);
-    	personCoveredMock1.setNombreAdulte(1);
+    	personCoveredMock1.setNombreEnfant(0);
+    	personCoveredMock1.setNombreAdulte(2);
     	
+    	 Person personMock = mockPerson();
+	    	Person personMock1 = mockPerson1();
+	    	List<Person> listOfPerson = new ArrayList<>();
+	    	listOfPerson.add(personMock);
+	    	listOfPerson.add(personMock1);
+	    	
+	    	Medicalrecord medicalrecordMock = mockMedicalrecord();
+	    	Medicalrecord medicalrecordMock1 = mockMedicalrecord1();
+	    	
     	String stationMock = "1";
     	List<PersonCovered> listOfPersonCovered = new ArrayList<>();
     	listOfPersonCovered.add(personCoveredMock);
     	listOfPersonCovered.add(personCoveredMock1);
 
+    	String addressMock = "1509 Culver St";
+		String addressMock1 = "salut";
+		
+		List<String> listAddress = new ArrayList<>();
+		listAddress.add(addressMock);
+		listAddress.add(addressMock1);
+		
+		Firestation firestationMock = mockFirestation();
+    	Firestation firestationMock1 = mockFirestation1();
     	
-    	when(safetyAlertServiceMock.getPersonCoveredByFirestation(stationMock)).thenReturn(listOfPersonCovered);
+    	List<Firestation> listOfFirestation = new ArrayList<>();
+    	listOfFirestation.add(firestationMock);
+    	listOfFirestation.add(firestationMock1); 
+   	
+    	when(firestationServiceMock.getAddressByFirestation(stationMock)).thenReturn(listAddress);
+    	when(personServiceMock.getPersonPerAddress(listAddress)).thenReturn(listOfPerson);
+    	when(medicalrecordServiceMock.findMedicalrecordByFirstnameAndLastname(listOfPerson.get(0).getFirstname(), listOfPerson.get(0).getLastname())).thenReturn(medicalrecordMock);
+    	when(medicalrecordServiceMock.findMedicalrecordByFirstnameAndLastname(listOfPerson.get(1).getFirstname(), listOfPerson.get(1).getLastname())).thenReturn(medicalrecordMock1);
     	
-    	mockMvc.perform(get("/firestation?station=" + stationMock))   //revoir URL car ici "station" au lieu de "stationNumber"
-    		.andExpect(status().isOk())
-    		.andExpect(jsonPath("[0].firstname", is("Reginold")))
-    		.andExpect(jsonPath("[0].lastname", is("Walker")))
-    		.andExpect(jsonPath("[0].address", is("908 73rd St")))
-    		.andExpect(jsonPath("[0].phoneNumber", is("841-874-8547")))
-    		.andExpect(jsonPath("[0].nombreAdulte", is(0)))
-    		.andExpect(jsonPath("[0].nombreEnfant", is(0)))
-    		.andExpect(jsonPath("[1].firstname", is("Ron")))
-    		.andExpect(jsonPath("[1].lastname", is("Peters")))
-    		.andExpect(jsonPath("[1].address", is("112 Steppes P1")))
-    		.andExpect(jsonPath("[1].phoneNumber", is("841-874-8888")))
-    		.andExpect(jsonPath("[1].nombreAdulte", is(1)))
-    		.andExpect(jsonPath("[1].nombreEnfant", is(1)));
-   
-    		
-    	verify(safetyAlertServiceMock).getPersonCoveredByFirestation(stationMock);
+    	List<PersonCovered> result = safetyAlertService.getPersonCoveredByFirestation(stationMock);
+    	
+    	verify(firestationServiceMock).getAddressByFirestation(stationMock);
+    	verify(personServiceMock).getPersonPerAddress(listAddress);
+    	verify(medicalrecordServiceMock).findMedicalrecordByFirstnameAndLastname(listOfPerson.get(0).getFirstname(), listOfPerson.get(0).getLastname());
+    	verify(medicalrecordServiceMock).findMedicalrecordByFirstnameAndLastname(listOfPerson.get(1).getFirstname(), listOfPerson.get(1).getLastname());
+    	assertThat(result).isEqualTo(listOfPersonCovered);
     }
+  
+  
     @Test
-    public void listOfPersonLivingAtAnAddressTest() throws Exception{
+    public void getPersonLivingAtAnAddressTest() throws Exception{
     	
     	PersonLivingAtAnAddress personLivingAtAnAddressMock = new PersonLivingAtAnAddress();
-    	personLivingAtAnAddressMock.setFirstname("Alpha");
-    	personLivingAtAnAddressMock.setLastname("Bravo");
-    	personLivingAtAnAddressMock.setPhoneNumber("000-000-0001");
-    	personLivingAtAnAddressMock.setAge(20);
-    	personLivingAtAnAddressMock.setMedications("Charlie");
-    	personLivingAtAnAddressMock.setAllergies("Delta");
-    	personLivingAtAnAddressMock.setFirestationNumber("1");
+    	personLivingAtAnAddressMock.setFirstname("Reginold");
+    	personLivingAtAnAddressMock.setLastname("Walker");
+    	personLivingAtAnAddressMock.setPhoneNumber("841-874-8547");
+    	personLivingAtAnAddressMock.setAge(42);
+    	personLivingAtAnAddressMock.setMedications("thradox:700mg");
+    	personLivingAtAnAddressMock.setAllergies("illisoxian");
+    	personLivingAtAnAddressMock.setFirestationNumber("3");
     	
     	PersonLivingAtAnAddress personLivingAtAnAddressMock1 = new PersonLivingAtAnAddress();
-    	personLivingAtAnAddressMock1.setFirstname("Alpha1");
-    	personLivingAtAnAddressMock1.setLastname("Bravo1");
-    	personLivingAtAnAddressMock1.setPhoneNumber("000-000-0002");
-    	personLivingAtAnAddressMock1.setAge(30);
-    	personLivingAtAnAddressMock1.setMedications("Charlie1");
-    	personLivingAtAnAddressMock1.setAllergies("Delta1");
-    	personLivingAtAnAddressMock1.setFirestationNumber("1");
-    	    	
+    	personLivingAtAnAddressMock1.setFirstname("Ron");
+    	personLivingAtAnAddressMock1.setLastname("Peters");
+    	personLivingAtAnAddressMock1.setPhoneNumber("841-874-8888");
+    	personLivingAtAnAddressMock1.setAge(57);
+    	personLivingAtAnAddressMock1.setMedications("");
+    	personLivingAtAnAddressMock1.setAllergies("");
+    	personLivingAtAnAddressMock1.setFirestationNumber("3");
+    	
+    	 Person personMock = mockPerson();
+	    	Person personMock1 = mockPerson1();
+	    	List<Person> listOfPerson = new ArrayList<>();
+	    	listOfPerson.add(personMock);
+	    	listOfPerson.add(personMock1);
+	    	
+	    	Firestation firestationMock = mockFirestation();
+	    	
+	    	Medicalrecord medicalrecordMock = mockMedicalrecord();
+	    	Medicalrecord medicalrecordMock1 = mockMedicalrecord1();
+    	
     	String addressMock = "Roissy";
     	List<PersonLivingAtAnAddress> listOfPersonLivingAtAnAddress = new ArrayList<>();
     	listOfPersonLivingAtAnAddress.add(personLivingAtAnAddressMock);
     	listOfPersonLivingAtAnAddress.add(personLivingAtAnAddressMock1);
-    		
-    	when(safetyAlertServiceMock.getPersonLivingAtAnAddress(addressMock)).thenReturn(listOfPersonLivingAtAnAddress);
+    		 
     	
-    	mockMvc.perform(get("/fire?address=" + addressMock))
-    		.andExpect(status().isOk())
-    		.andExpect(jsonPath("[0].firstname", is("Alpha")))
-    		.andExpect(jsonPath("[0].lastname", is("Bravo")))
-    		.andExpect(jsonPath("[0].phoneNumber", is("000-000-0001")))
-    		.andExpect(jsonPath("[0].age", is(20)))
-    		.andExpect(jsonPath("[0].medications", is("Charlie")))
-    		.andExpect(jsonPath("[0].allergies", is("Delta")))
-    		.andExpect(jsonPath("[0].firestationNumber", is("1")))
-    		.andExpect(jsonPath("[1].firstname", is("Alpha1")))
-    		.andExpect(jsonPath("[1].lastname", is("Bravo1")))
-    		.andExpect(jsonPath("[1].phoneNumber", is("000-000-0002")))
-    		.andExpect(jsonPath("[1].age", is(30)))
-    		.andExpect(jsonPath("[1].medications", is("Charlie1")))
-    		.andExpect(jsonPath("[1].allergies", is("Delta1")))
-    		.andExpect(jsonPath("[1].firestationNumber", is("1")));
-    		
-    	verify(safetyAlertServiceMock).getPersonLivingAtAnAddress(addressMock);
+       	when(personServiceMock.getPersonPerAddress(addressMock)).thenReturn(listOfPerson);
+       	when(firestationServiceMock.getFirestationByAddress(addressMock)).thenReturn(firestationMock);
+    	when(medicalrecordServiceMock.findMedicalrecordByFirstnameAndLastname(listOfPerson.get(0).getFirstname(), listOfPerson.get(0).getLastname())).thenReturn(medicalrecordMock);
+    	when(medicalrecordServiceMock.findMedicalrecordByFirstnameAndLastname(listOfPerson.get(1).getFirstname(), listOfPerson.get(1).getLastname())).thenReturn(medicalrecordMock1);
+
+    	List<PersonLivingAtAnAddress> result = safetyAlertService.getPersonLivingAtAnAddress(addressMock);
+
+    	verify(personServiceMock).getPersonPerAddress(addressMock);
+      	verify(firestationServiceMock).getFirestationByAddress(addressMock);
+    	verify(medicalrecordServiceMock).findMedicalrecordByFirstnameAndLastname(listOfPerson.get(0).getFirstname(), listOfPerson.get(0).getLastname());
+    	verify(medicalrecordServiceMock).findMedicalrecordByFirstnameAndLastname(listOfPerson.get(1).getFirstname(), listOfPerson.get(1).getLastname());
+    	assertThat(result).isEqualTo(listOfPersonLivingAtAnAddress);
     	
     }
+    
+  
     @Test
-    public void informationAboutPersonTest() throws Exception{
+    public void getInformationAboutPersonTest() throws Exception{
     	
     	PersonInfo personInfoMock = new PersonInfo();
-    	personInfoMock.setFirstname("Alpha");
-    	personInfoMock.setLastname("Bravo");
-    	personInfoMock.setAddress("Roissy");
-    	personInfoMock.setAge(20);
-    	personInfoMock.setMedications("Charlie");
-    	personInfoMock.setAllergies("Delta");
-    	personInfoMock.setEmail("alpha@gmail.com");
+    	personInfoMock.setFirstname("Reginold");
+    	personInfoMock.setLastname("Walker");
+    	personInfoMock.setAddress("908 73rd St");
+    	personInfoMock.setAge(42);
+    	personInfoMock.setMedications("thradox:700mg");
+    	personInfoMock.setAllergies("illisoxian");
+    	personInfoMock.setEmail("reg@email.com");
     	    	
-    	String firstnameMock = "Alpha";
-    	String lastnameMock = "Bravo";
-    		
-    	when(safetyAlertServiceMock.getInformationAboutPerson(firstnameMock,lastnameMock)).thenReturn(personInfoMock);
+    	Person personMock = mockPerson();
+    	Medicalrecord medicalrecordMock = mockMedicalrecord();
     	
-    	mockMvc.perform(get("/personInfo?firstname=" + firstnameMock + "&lastname=" + lastnameMock))
-    		.andExpect(status().isOk())
-    		.andExpect(jsonPath("$.firstname").value("Alpha"))
-    		.andExpect(jsonPath("$.lastname", is("Bravo")))
-    		.andExpect(jsonPath("$.address", is("Roissy")))
-    		.andExpect(jsonPath("$.age", is(20)))
-    		.andExpect(jsonPath("$.medications", is("Charlie")))
-    		.andExpect(jsonPath("$.allergies", is("Delta")))
-    		.andExpect(jsonPath("$.email", is("alpha@gmail.com")));
-
+    	String firstnameMock = "Reginold";
+    	String lastnameMock = "Walker";
     		
-    	verify(safetyAlertServiceMock).getInformationAboutPerson(firstnameMock, lastnameMock);
+    	when(personServiceMock.getPersonByFirstnameAndLastname(firstnameMock, lastnameMock)).thenReturn(personMock);
+    	when(medicalrecordServiceMock.findMedicalrecordByFirstnameAndLastname(firstnameMock, lastnameMock)).thenReturn(medicalrecordMock);
     	
+    	PersonInfo result = safetyAlertService.getInformationAboutPerson(firstnameMock, lastnameMock);
+    	
+    	verify(personServiceMock).getPersonByFirstnameAndLastname(firstnameMock, lastnameMock);
+    	verify(medicalrecordServiceMock).findMedicalrecordByFirstnameAndLastname(firstnameMock, lastnameMock);
+    	assertThat(result).isEqualTo(personInfoMock);
     }
+    
+    
     @Test
-    public void listOfHomeDeservedByFirestationTest() throws Exception{
+    public void getListOfHomeDeservedByFirestationTest() throws Exception{
     	
     	
     	FloodList floodListMock = new FloodList();
-    	floodListMock.setFirstname("Alpha");
-    	floodListMock.setLastname("Bravo");
-    	floodListMock.setPhoneNumber("000-000-0001");
-    	floodListMock.setAge(20);
-    	floodListMock.setMedications("Charlie");
-    	floodListMock.setAllergies("Delta");
-    	floodListMock.setAddress("1");
+    	floodListMock.setFirstname("Reginold");
+    	floodListMock.setLastname("Walker");
+    	floodListMock.setPhoneNumber("841-874-8547");
+    	floodListMock.setAge(42);
+    	floodListMock.setMedications("thradox:700mg");
+    	floodListMock.setAllergies("illisoxian");
+    	floodListMock.setAddress("908 73rd St");
     	
     	FloodList floodListMock1 = new FloodList();
-    	floodListMock1.setFirstname("Alpha1");
-    	floodListMock1.setLastname("Bravo1");
-    	floodListMock1.setPhoneNumber("000-000-0002");
-    	floodListMock1.setAge(30);
-    	floodListMock1.setMedications("Charlie1");
-    	floodListMock1.setAllergies("Delta1");
-    	floodListMock1.setAddress("1");
+    	floodListMock1.setFirstname("Ron");
+    	floodListMock1.setLastname("Peters");
+    	floodListMock1.setPhoneNumber("841-874-8888");
+    	floodListMock1.setAge(57);
+    	floodListMock1.setMedications("");
+    	floodListMock1.setAllergies("");
+    	floodListMock1.setAddress("112 Steppes Pl");
     	    	
     	String stationMock = "1";
     	List<FloodList> listOfFloodList = new ArrayList<>();
     	listOfFloodList.add(floodListMock);
     	listOfFloodList.add(floodListMock1);
-    		
-    	when(safetyAlertServiceMock.getListOfHomeDeservedByFirestation(stationMock)).thenReturn(listOfFloodList);
     	
-    	mockMvc.perform(get("/flood/stations?station=" + stationMock))
-    		.andExpect(status().isOk())
-    		.andExpect(jsonPath("[0].firstname", is("Alpha")))
-    		.andExpect(jsonPath("[0].lastname", is("Bravo")))
-    		.andExpect(jsonPath("[0].phoneNumber", is("000-000-0001")))
-    		.andExpect(jsonPath("[0].age", is(20)))
-    		.andExpect(jsonPath("[0].medications", is("Charlie")))
-    		.andExpect(jsonPath("[0].allergies", is("Delta")))
-    		.andExpect(jsonPath("[0].address", is("1")))
-    		.andExpect(jsonPath("[1].firstname", is("Alpha1")))
-    		.andExpect(jsonPath("[1].lastname", is("Bravo1")))
-    		.andExpect(jsonPath("[1].phoneNumber", is("000-000-0002")))
-    		.andExpect(jsonPath("[1].age", is(30)))
-    		.andExpect(jsonPath("[1].medications", is("Charlie1")))
-    		.andExpect(jsonPath("[1].allergies", is("Delta1")))
-    		.andExpect(jsonPath("[1].address", is("1")));
+    	String addressMock = "1509 Culver St";
+		String addressMock1 = "salut";
+		
+		List<String> listAddress = new ArrayList<>();
+		listAddress.add(addressMock);
+		listAddress.add(addressMock1);
+		
+		 Person personMock = mockPerson();
+	    	Person personMock1 = mockPerson1();
+	    	List<Person> listOfPerson = new ArrayList<>();
+	    	listOfPerson.add(personMock);
+	    	listOfPerson.add(personMock1);
+	    	
+	    	Medicalrecord medicalrecordMock = mockMedicalrecord();
+	    	Medicalrecord medicalrecordMock1 = mockMedicalrecord1();
     		
-    	verify(safetyAlertServiceMock).getListOfHomeDeservedByFirestation(stationMock);
+    	when(firestationServiceMock.getAddressByFirestation(stationMock)).thenReturn(listAddress);
+    	when(personServiceMock.getPersonPerAddress(listAddress)).thenReturn(listOfPerson);
+    	when(medicalrecordServiceMock.findMedicalrecordByFirstnameAndLastname(listOfPerson.get(0).getFirstname(), listOfPerson.get(0).getLastname())).thenReturn(medicalrecordMock);
+    	when(medicalrecordServiceMock.findMedicalrecordByFirstnameAndLastname(listOfPerson.get(1).getFirstname(), listOfPerson.get(1).getLastname())).thenReturn(medicalrecordMock1);
     	
+    	List<FloodList> result = safetyAlertService.getListOfHomeDeservedByFirestation(stationMock);
+    	
+    	verify(firestationServiceMock).getAddressByFirestation(stationMock);
+    	verify(personServiceMock).getPersonPerAddress(listAddress);
+    	verify(medicalrecordServiceMock).findMedicalrecordByFirstnameAndLastname(listOfPerson.get(0).getFirstname(), listOfPerson.get(0).getLastname());
+    	verify(medicalrecordServiceMock).findMedicalrecordByFirstnameAndLastname(listOfPerson.get(1).getFirstname(), listOfPerson.get(1).getLastname());
+    	assertThat(result).isEqualTo(listOfFloodList);
     }
     
-
-}
-*/
-	
-	
 }
