@@ -1,106 +1,48 @@
-/*package com.openclassrooms.api;
+package com.openclassrooms.api.service;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.web.servlet.MockMvc; 
-
-@SpringBootTest
-@AutoConfigureMockMvc
-public class FirestationControllerTest {
-
-    @Autowired
-    private MockMvc mockMvc; */
-   /* @Autowired
-    private MockBean */
- /*   @Test
-    public void testGetFirestations() throws Exception {
-        mockMvc.perform(get("/firestations"))
-            .andExpect(status().isOk())
-            .andExpect(jsonPath("$[0].address", is("1509 Culver St")))
-            .andExpect(jsonPath("$[0].station",is("3")));
-    }
-
-} */
-package com.openclassrooms.api;
-
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.CoreMatchers.is;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import org.hamcrest.Matchers;
-import org.hamcrest.collection.IsArray;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.boot.test.context.SpringBootTest;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.openclassrooms.api.controller.SafetyAlertController;
 import com.openclassrooms.api.model.Child;
 import com.openclassrooms.api.model.Firestation;
 import com.openclassrooms.api.model.FloodList;
+import com.openclassrooms.api.model.Medicalrecord;
 import com.openclassrooms.api.model.Person;
 import com.openclassrooms.api.model.PersonCovered;
 import com.openclassrooms.api.model.PersonInfo;
 import com.openclassrooms.api.model.PersonLivingAtAnAddress;
-import com.openclassrooms.api.service.FirestationService;
-import com.openclassrooms.api.service.SafetyAlertService;
 
-//@WebMvcTest(controllers = SafetyAlertController.class)
-public class SafetyAlertControllerTest {
+@SpringBootTest
+public class SafetyAlertServiceTest {
+	
+	@Mock
+	private FirestationService firestationServiceMock;
+	
+	@Mock
+	private PersonService personServiceMock;
+	
+	@Mock
+	private MedicalrecordService medicalrecordServiceMock;
+	
+	@InjectMocks
+	private SafetyAlertService safetyAlertService;
+	
 
-  //  @Autowired
-    private MockMvc mockMvc;
-    
-    @Mock
-    private FirestationService firestationService;
-
-    @Mock
-    private SafetyAlertService safetyAlertServiceMock;
-
-    @InjectMocks
-    private SafetyAlertController safetyAlertController;
-    
-    
-    @BeforeEach
-    public void setup()
-    {
-    	MockitoAnnotations.openMocks(this);
-    	this.mockMvc = MockMvcBuilders.standaloneSetup(safetyAlertController).build(); // Remplace @WebMvcTest(controllers = SafetyAlertController.class) en évitant de charger tout le contexte gain de temps 
-    }
-    
-    
 	private Person mockPerson() {
 		Person personMock= new Person();
 
@@ -125,30 +67,43 @@ public class SafetyAlertControllerTest {
 		return personMock1;
 	}
 
-    
-    @Test
-    public void listOfPhoneNumberOfPersonByFirestationTest() throws Exception {
+		
+	 @Test
+    public void getPhoneNumberOfPersonByFirestationTest() throws Exception {
     	
-    	String station = "1";
-    	List<String> phone = new ArrayList<>();
-    	String phone1 = "000-000-000";
-    	String phone2 = "111-111-111";
-    	phone.add(phone1);
-    	phone.add(phone2);
+		    Person personMock = mockPerson();
+	    	Person personMock1 = mockPerson1();
+	    	List<Person> listOfPerson = new ArrayList<>();
+	    	listOfPerson.add(personMock);
+	    	listOfPerson.add(personMock1);
+		 
+	    	String station = "1";
+	    	String addressMock = "908 73rd St";
+			String addressMock1 = "112 Steppes Pl";
+			
+			List<String> listAddress = new ArrayList<>();
+			listAddress.add(addressMock);
+			listAddress.add(addressMock1);
+	    
+			List<String> phone = new ArrayList<>();
+			String phone1 = "841-874-8547";
+			String phone2 = "841-874-8888";
+			phone.add(phone1);
+			phone.add(phone2);
     	
-    	when(safetyAlertServiceMock.getPhoneNumberOfPersonByFirestation(station)).thenReturn(phone);
-    	    	
-    	mockMvc.perform(get("/phoneAlert?firestation=" + 1))
-    		.andDo(print())
-    		.andExpect(status().isOk())
-    		.andExpect(jsonPath("$",Matchers.hasSize(2)))  //.andExpect(jsonPath("$.size()").value(2))
-    		.andExpect(jsonPath("$[0]").value("000-000-000"))
-    		.andExpect(jsonPath("$[1]").value("111-111-111"));
+			when(firestationServiceMock.getAddressByFirestation(station)).thenReturn(listAddress);
+    	    when(personServiceMock.getPersonPerAddress(listAddress)).thenReturn(listOfPerson);
+    	    when(personServiceMock.getPhoneNumberOfPerson(listOfPerson)).thenReturn(phone);
 
-    	verify(safetyAlertServiceMock).getPhoneNumberOfPersonByFirestation(station);
-
+    	    List<String> result = safetyAlertService.getPhoneNumberOfPersonByFirestation(station);
+    	    
+    	verify(firestationServiceMock).getAddressByFirestation(station);
+    	verify(personServiceMock).getPersonPerAddress(listAddress);
+    	verify(personServiceMock).getPhoneNumberOfPerson(listOfPerson);
+    	assertThat(result).isEqualTo(phone);
       }
-    
+	 
+	 /*   
     @Test
     public void listOfChildAtAnAddressTest() throws Exception{
     	
@@ -355,4 +310,8 @@ public class SafetyAlertControllerTest {
     }
     
 
+}
+*/
+	
+	
 }

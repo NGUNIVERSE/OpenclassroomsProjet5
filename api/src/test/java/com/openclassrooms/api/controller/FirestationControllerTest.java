@@ -29,7 +29,7 @@ public class FirestationControllerTest {
     }
 
 } */
-package com.openclassrooms.api;
+package com.openclassrooms.api.controller;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.mockito.Mockito.verify;
