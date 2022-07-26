@@ -14,7 +14,7 @@ CREATE TABLE medicalrecords (
 INSERT INTO medicalrecords (firstname, lastname, birthdate, medications, allergies) VALUES
 
  ('John', 'Boyd', '03/06/1984', 'aznol:350mg, hydrapermazol:100mg', 'nillacilan'),
- ('Jacob', 'Boyd', '03/06/1989', 'pharmacol:5000mg , terazine:10mg, noznazol:250mg', ''),
+ ('Jacob', 'Boyd', '03/06/1989', 'pharmacol:5000mg, terazine:10mg, noznazol:250mg', ''),
  ('Tenley', 'Boyd', '02/18/2012', '', 'peanut'),
  ('Roger', 'Boyd', '09/06/2017', '', ''),
  ('Felicia', 'Boyd', '01/08/1986', 'tetracyclaz:650mg', 'xilliathal'),
