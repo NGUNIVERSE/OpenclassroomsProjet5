@@ -259,15 +259,15 @@ public class SafetyAlertControllerTest {
     		.andExpect(jsonPath("[0].lastname", is("Bravo")))
     		.andExpect(jsonPath("[0].phoneNumber", is("000-000-0001")))
     		.andExpect(jsonPath("[0].age", is(20)))
-    		.andExpect(jsonPath("[0].medications", is("Charlie")))
-    		.andExpect(jsonPath("[0].allergies", is("Delta")))
+    		.andExpect(jsonPath("[0].medications[0]", is("Charlie")))
+    		.andExpect(jsonPath("[0].allergies[0]", is("Delta")))
     		.andExpect(jsonPath("[0].firestationNumber", is("1")))
     		.andExpect(jsonPath("[1].firstname", is("Alpha1")))
     		.andExpect(jsonPath("[1].lastname", is("Bravo1")))
     		.andExpect(jsonPath("[1].phoneNumber", is("000-000-0002")))
     		.andExpect(jsonPath("[1].age", is(30)))
-    		.andExpect(jsonPath("[1].medications", is("Charlie1")))
-    		.andExpect(jsonPath("[1].allergies", is("Delta1")))
+    		.andExpect(jsonPath("[1].medications[0]", is("Charlie1")))
+    		.andExpect(jsonPath("[1].allergies[0]", is("Delta1")))
     		.andExpect(jsonPath("[1].firestationNumber", is("1")));
     		
     	verify(safetyAlertServiceMock).getPersonLivingAtAnAddress(addressMock);
@@ -296,8 +296,8 @@ public class SafetyAlertControllerTest {
     		.andExpect(jsonPath("$.lastname", is("Bravo")))
     		.andExpect(jsonPath("$.address", is("Roissy")))
     		.andExpect(jsonPath("$.age", is(20)))
-    		.andExpect(jsonPath("$.medications", is("Charlie")))
-    		.andExpect(jsonPath("$.allergies", is("Delta")))
+    		.andExpect(jsonPath("$.medications[0]", is("Charlie")))
+    		.andExpect(jsonPath("$.allergies[0]", is("Delta")))
     		.andExpect(jsonPath("$.email", is("alpha@gmail.com")));
 
     		
@@ -339,15 +339,15 @@ public class SafetyAlertControllerTest {
     		.andExpect(jsonPath("[0].lastname", is("Bravo")))
     		.andExpect(jsonPath("[0].phoneNumber", is("000-000-0001")))
     		.andExpect(jsonPath("[0].age", is(20)))
-    		.andExpect(jsonPath("[0].medications", is("Charlie")))
-    		.andExpect(jsonPath("[0].allergies", is("Delta")))
+    		.andExpect(jsonPath("[0].medications[0]", is("Charlie")))
+    		.andExpect(jsonPath("[0].allergies[0]", is("Delta")))
     		.andExpect(jsonPath("[0].address", is("1")))
     		.andExpect(jsonPath("[1].firstname", is("Alpha1")))
     		.andExpect(jsonPath("[1].lastname", is("Bravo1")))
     		.andExpect(jsonPath("[1].phoneNumber", is("000-000-0002")))
     		.andExpect(jsonPath("[1].age", is(30)))
-    		.andExpect(jsonPath("[1].medications", is("Charlie1")))
-    		.andExpect(jsonPath("[1].allergies", is("Delta1")))
+    		.andExpect(jsonPath("[1].medications[0]", is("Charlie1")))
+    		.andExpect(jsonPath("[1].allergies[0]", is("Delta1")))
     		.andExpect(jsonPath("[1].address", is("1")));
     		
     	verify(safetyAlertServiceMock).getListOfHomeDeservedByFirestation(stationMock);

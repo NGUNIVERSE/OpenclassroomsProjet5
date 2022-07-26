@@ -82,15 +82,15 @@ public class MedicalrecordControllerTest {
     	when(medicalrecordServiceMock.getMedicalrecord(id2)).thenReturn(medicalrecordOptionalMock1);
     	
     	mockMvc.perform(get("/medicalrecord/{id}",id1)).andExpect(status().isOk())
-          .andExpect(jsonPath("$.firstname").value("Reginold"))
-          .andExpect(jsonPath("$.lastname").value("Walker"))
+          .andExpect(jsonPath("$.firstName").value("Reginold"))
+          .andExpect(jsonPath("$.lastName").value("Walker"))
           .andExpect(jsonPath("$.birthdate").value("08/30/1979"))
           .andExpect(jsonPath("$.medications").value("thradox:700mg"))
     	  .andExpect(jsonPath("$.allergies").value("illisoxian"));
     	  
     	mockMvc.perform(get("/medicalrecord/{id}",id2)).andExpect(status().isOk())
-    	.andExpect(jsonPath("$.firstname").value("Ron"))
-        .andExpect(jsonPath("$.lastname").value("Peters"))
+    	.andExpect(jsonPath("$.firstName").value("Ron"))
+        .andExpect(jsonPath("$.lastName").value("Peters"))
         .andExpect(jsonPath("$.birthdate").value("04/06/1965"))
         .andExpect(jsonPath("$.medications").value(""))
   	    .andExpect(jsonPath("$.allergies").value(""));
@@ -115,16 +115,17 @@ public class MedicalrecordControllerTest {
     	when(medicalrecordServiceMock.getMedicalrecords()).thenReturn(listOfMedicalrecordTest);
      
  	mockMvc.perform(get("/medicalrecords")).andExpect(status().isOk())
- 		.andExpect(jsonPath("$[0].firstname", is("Reginold")))
- 		.andExpect(jsonPath("$[0].lastname", is("Walker")))
+ 		.andExpect(jsonPath("$[0].firstName", is("Reginold")))
+ 		.andExpect(jsonPath("$[0].lastName", is("Walker")))
  		.andExpect(jsonPath("$[0].birthdate", is("08/30/1979")))
- 		.andExpect(jsonPath("$[0].medications", is("thradox:700mg")))
-        .andExpect(jsonPath("$[0].allergies", is("illisoxian")))
-        .andExpect(jsonPath("$[1].firstname", is("Ron")))
-        .andExpect(jsonPath("$[1].lastname", is("Peters")))
+ 	//	.andExpect(jsonPath("$[0].medications").isArray())
+ 		.andExpect(jsonPath("$[0].medications[0]",is("thradox:700mg")))
+        .andExpect(jsonPath("$[0].allergies[0]", is("illisoxian")))
+        .andExpect(jsonPath("$[1].firstName", is("Ron")))
+        .andExpect(jsonPath("$[1].lastName", is("Peters")))
         .andExpect(jsonPath("$[1].birthdate", is("04/06/1965")))
-        .andExpect(jsonPath("$[1].medications", is("")))
-        .andExpect(jsonPath("$[1].allergies", is("")));
+        .andExpect(jsonPath("$[1].medications[0]", is("")))
+        .andExpect(jsonPath("$[1].allergies[0]", is("")));
      
      verify(medicalrecordServiceMock).getMedicalrecords();
         
@@ -164,8 +165,8 @@ public class MedicalrecordControllerTest {
     		 .accept(MediaType.APPLICATION_JSON)
     		 .content(json))
      		 .andExpect(status().isCreated())
-     		 .andExpect(jsonPath("$.firstname").value("Ron"))
-     		 .andExpect(jsonPath("$.lastname").value("Peters"))
+     		 .andExpect(jsonPath("$.firstName").value("Ron"))
+     		 .andExpect(jsonPath("$.lastName").value("Peters"))
      		 .andExpect(jsonPath("$.birthdate").value("04/06/1965"))
      		 .andExpect(jsonPath("$.medications").value(""))
      		 .andExpect(jsonPath("$.allergies").value(""));
@@ -192,8 +193,8 @@ public class MedicalrecordControllerTest {
     	    		 .accept(MediaType.APPLICATION_JSON)
     	    		 .content(json))
     	     		 .andExpect(status().isOk())
-    	     		 .andExpect(jsonPath("$.firstname").value("Ron"))
-    	     		 .andExpect(jsonPath("$.lastname").value("Peters"))
+    	     		 .andExpect(jsonPath("$.firstName").value("Ron"))
+    	     		 .andExpect(jsonPath("$.lastName").value("Peters"))
     	     		 .andExpect(jsonPath("$.birthdate").value("04/06/1965"))
     	     		 .andExpect(jsonPath("$.medications").value(""))
     	     		 .andExpect(jsonPath("$.allergies").value(""));
