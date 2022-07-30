@@ -35,7 +35,7 @@ private MedicalrecordRepository medicalrecordRepository; */
 		 * @param id The id of the person
 		 * @return A Medicalrecord object full filled
 		 */
-		@GetMapping("/medicalrecord/{id}")
+		@GetMapping("/medicalRecord/{id}")
 		public ResponseEntity<Medicalrecord> getMedicalrecord(@PathVariable("id") final Long id) {
 	
 			return ResponseEntity.of(medicalrecordService.getMedicalrecord(id));
@@ -46,7 +46,7 @@ private MedicalrecordRepository medicalrecordRepository; */
 	    * Read - Get all medicalrecords
 	    * @return - An Iterable object of Medicalrecord full filled
 	    */
-	    @GetMapping("/medicalrecords")
+	    @GetMapping("/medicalRecords")
 	    public Iterable<Medicalrecord> getMedicalrecords() {
 	        return medicalrecordService.getMedicalrecords();
 	    }
@@ -56,7 +56,7 @@ private MedicalrecordRepository medicalrecordRepository; */
 		 * @param medicalrecord An object medicalrecord
 		 * @return The medicalrecord object saved
 		 */
-		@PostMapping("/medicalrecord")
+		@PostMapping("/medicalRecord")
 		public ResponseEntity<Medicalrecord> createMedicalrecord(@RequestBody Medicalrecord medicalrecord) {
 			return ResponseEntity.status(HttpStatus.CREATED).body(medicalrecordService.saveMedicalrecord(medicalrecord));
 		}
@@ -66,7 +66,7 @@ private MedicalrecordRepository medicalrecordRepository; */
 		 * @param id - The id of the person to delete
 		 */
 		@ResponseStatus(value = HttpStatus.NO_CONTENT)
-		@DeleteMapping("/medicalrecord/{id}")
+		@DeleteMapping("/medicalRecord/{id}")
 		public void deleteMedicalrecord(@PathVariable("id") final Long id) {
 			medicalrecordService.deleteMedicalrecord(id);
 		}
@@ -78,7 +78,7 @@ private MedicalrecordRepository medicalrecordRepository; */
 		 * @param person - The medicalrecord object updated
 		 * @return
 		 */
-		@PutMapping("/medicalrecord/{id}")
+		@PutMapping("/medicalRecord/{id}")
 		public ResponseEntity<Medicalrecord> updateMedicalrecord(@PathVariable("id") final Long id, @RequestBody Medicalrecord medicalrecord) {
 		
 			return ResponseEntity.of(medicalrecordService.updateMedicalrecord(id , medicalrecord));

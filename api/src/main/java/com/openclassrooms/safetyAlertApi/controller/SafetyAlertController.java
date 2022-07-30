@@ -55,7 +55,7 @@ public class SafetyAlertController {
 	    
 	    //http://localhost:8080/firestation?stationNumber=<station_number>
 	    @GetMapping("/firestation")
-	    public List<PersonCoveredDto> listOfPersonCoveredByFirestation(@RequestParam("station") final String station)
+	    public List<PersonCoveredDto> listOfPersonCoveredByFirestation(@RequestParam("stationNumber") final String station)
 	    {
 	    	return safetyAlertService.getPersonCoveredByFirestation(station);
 	    	
@@ -72,7 +72,7 @@ Cette url doit retourner le nom, l'adresse, l'âge, l'adresse mail et les antéc
 posologie, allergies) de chaque habitant. Si plusieurs personnes portent le même nom, elles doivent
 toutes apparaître. */
 	    @GetMapping("/personInfo")
-	    public PersonInfoDto informationAboutPerson(@RequestParam("firstname") final String firstname, @RequestParam("lastname") final String lastname)
+	    public PersonInfoDto informationAboutPerson(@RequestParam("firstName") final String firstname, @RequestParam("lastName") final String lastname)
 	    {
 	    	return safetyAlertService.getInformationAboutPerson(firstname,lastname);	  
 	    }
@@ -81,7 +81,7 @@ Cette url doit retourner une liste de tous les foyers desservis par la caserne. 
 personnes par adresse. Elle doit aussi inclure le nom, le numéro de téléphone et l'âge des habitants, et
 faire figurer leurs antécédents médicaux (médicaments, posologie et allergies) à côté de chaque nom.*/
 	    @GetMapping("/flood/stations")
-	    public List<FloodListDto> listOfHomeDeservedByFirestation(@RequestParam("station") final String station)
+	    public List<FloodListDto> listOfHomeDeservedByFirestation(@RequestParam("stations") final String station)
 	    {
 	    	return safetyAlertService.getListOfHomeDeservedByFirestation(station);
 	    }
