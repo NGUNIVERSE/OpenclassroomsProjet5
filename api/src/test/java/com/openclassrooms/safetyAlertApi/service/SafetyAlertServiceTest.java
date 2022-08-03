@@ -25,6 +25,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import com.openclassrooms.safetyAlertApi.dto.ChildDto;
 import com.openclassrooms.safetyAlertApi.dto.FloodListDto;
+import com.openclassrooms.safetyAlertApi.dto.HomeMembresDto;
 import com.openclassrooms.safetyAlertApi.dto.PersonCoveredDto;
 import com.openclassrooms.safetyAlertApi.dto.PersonInfoDto;
 import com.openclassrooms.safetyAlertApi.dto.PersonLivingAtAnAddressDto;
@@ -213,11 +214,22 @@ private Firestation mockFirestation1() {
     	listOfPerson.add(personMock1);
     	listOfPerson.add(personMock2);
     	
+    	HomeMembresDto homeMembresDtoMock = new HomeMembresDto();
+    	HomeMembresDto homeMembresDtoMock1 = new HomeMembresDto();
+    	HomeMembresDto homeMembresDtoMock2 = new HomeMembresDto();
+    	homeMembresDtoMock.setFirstname(personMock.getFirstname());
+    	homeMembresDtoMock1.setFirstname(personMock1.getFirstname());
+    	homeMembresDtoMock2.setFirstname(personMock2.getFirstname());
+    	List<HomeMembresDto> listOfHomeMembres = new ArrayList<>();
+    	listOfHomeMembres.add(homeMembresDtoMock);
+    	listOfHomeMembres.add(homeMembresDtoMock1);
+    	listOfHomeMembres.add(homeMembresDtoMock2);
+    	
     	Medicalrecord medicalrecordMock = mockMedicalrecord();
     	Medicalrecord medicalrecordMock1 = mockMedicalrecord1();
     	Medicalrecord medicalrecordMock2 = mockMedicalrecord2();
     	
-    	ChildDto childMock = new ChildDto("Junior","Junior",2,listOfPerson);
+    	ChildDto childMock = new ChildDto("Junior","Junior",2,listOfHomeMembres);
 
     	List<ChildDto> listOfChild = new ArrayList<>();
     	listOfChild.add(childMock);

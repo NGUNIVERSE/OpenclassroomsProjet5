@@ -1,5 +1,8 @@
 package com.openclassrooms.safetyAlertApi.dto;
 
+import lombok.Data;
+
+@Data
 public class HomeMembresDto {
 
 	private String firstname;

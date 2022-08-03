@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.openclassrooms.safetyAlertApi.dto.ChildDto;
 import com.openclassrooms.safetyAlertApi.dto.EmailDto;
 import com.openclassrooms.safetyAlertApi.dto.FloodListDto;
+import com.openclassrooms.safetyAlertApi.dto.HomeMembresDto;
 import com.openclassrooms.safetyAlertApi.dto.PersonCoveredDto;
 import com.openclassrooms.safetyAlertApi.dto.PersonInfoDto;
 import com.openclassrooms.safetyAlertApi.dto.PersonInfosDto;
@@ -52,36 +53,43 @@ public class SafetyAlertService {
 	{
 		List<ChildDto> listOfChild = new ArrayList<>();
 		List<Person> listOfPersonAtAnAddress = new ArrayList<>();
-		List<Person> homeMembers = new ArrayList<>();
+		List<HomeMembresDto> listOfHomeMembers = new ArrayList<>();
 		listOfPersonAtAnAddress = personService.getPersonPerAddress(address);
 		Medicalrecord medicalrecord = new Medicalrecord();
 		Person person = new Person();
+		HomeMembresDto homeMembresDto = new HomeMembresDto();
 		
 		int i = 0;
 		long age = 0;
+
 		for(i=0;i<listOfPersonAtAnAddress.size();i++)
 		{ 
 			person = listOfPersonAtAnAddress.get(i);
+			homeMembresDto.setFirstname(person.getFirstname());
+			homeMembresDto.setLastname(person.getLastname());
+			listOfHomeMembers.add(homeMembresDto);
+
 			medicalrecord = medicalrecordService.findMedicalrecordByFirstnameAndLastname(person.getFirstname(), person.getLastname() );
 			//calcul de l'age
 			age = getAge(medicalrecord.getBirthdate());
 		
 			if(age <= 18)
 			{	//si oui ajouter son nom à la liste child
+			//	homeMembresDto.setFirstname(person.getFirstname());
+			//	homeMembresDto.setLastname(person.getLastname());
+			//	listOfHomeMembers.add(homeMembresDto);
+
 				
-				ChildDto child = new ChildDto(person.getFirstname(),person.getLastname(), age ,listOfPersonAtAnAddress);
+				ChildDto child = new ChildDto(person.getFirstname(),person.getLastname(), age, listOfHomeMembers);
 				listOfChild.add(child);
 			}
 			else
 			{	
-				
 			}			
-				
 				//si oui ajouter son nom à la liste child
-				//si non ajouter son nom dans la liste des homemembers
-	
+				//si non ajouter son nom dans la liste des homemembers	
 		}
-		
+
 		return listOfChild;
 	} 
 	public long getAge(String birthDate) {

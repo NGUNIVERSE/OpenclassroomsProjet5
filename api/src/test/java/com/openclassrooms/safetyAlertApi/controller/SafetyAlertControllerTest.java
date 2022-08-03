@@ -69,6 +69,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.openclassrooms.safetyAlertApi.controller.SafetyAlertController;
 import com.openclassrooms.safetyAlertApi.dto.ChildDto;
 import com.openclassrooms.safetyAlertApi.dto.FloodListDto;
+import com.openclassrooms.safetyAlertApi.dto.HomeMembresDto;
 import com.openclassrooms.safetyAlertApi.dto.PersonCoveredDto;
 import com.openclassrooms.safetyAlertApi.dto.PersonInfoDto;
 import com.openclassrooms.safetyAlertApi.dto.PersonLivingAtAnAddressDto;
@@ -158,9 +159,17 @@ public class SafetyAlertControllerTest {
     	List<Person> listOfPerson = new ArrayList<>();
     	listOfPerson.add(personMock);
     	listOfPerson.add(personMock1);
+    	HomeMembresDto homeMembresDtoMock = new HomeMembresDto();
+    	HomeMembresDto homeMembresDtoMock1 = new HomeMembresDto();
+    	homeMembresDtoMock.setFirstname(personMock.getFirstname());
+    	homeMembresDtoMock1.setFirstname(personMock1.getFirstname());
+    	List<HomeMembresDto> listOfHomeMembres = new ArrayList<>();
+    	listOfHomeMembres.add(homeMembresDtoMock);
+    	listOfHomeMembres.add(homeMembresDtoMock1);
     	
-    	ChildDto childMock = new ChildDto("roger","rabbit",20,listOfPerson);
-    	ChildDto childMock1 = new ChildDto("babar","fox",30,listOfPerson);
+    	ChildDto childMock = new ChildDto("roger","rabbit",20,listOfHomeMembres);
+    	ChildDto childMock1 = new ChildDto("babar","fox",30,listOfHomeMembres);
+    	
     	List<ChildDto> listOfChild = new ArrayList<>();
     	listOfChild.add(childMock);
     	listOfChild.add(childMock1);
@@ -207,7 +216,7 @@ public class SafetyAlertControllerTest {
     	
     	when(safetyAlertServiceMock.getPersonCoveredByFirestation(stationMock)).thenReturn(listOfPersonCovered);
     	
-    	mockMvc.perform(get("/firestation?station=" + stationMock))   //revoir URL car ici "station" au lieu de "stationNumber"
+    	mockMvc.perform(get("/firestation?stationNumber=" + stationMock))   //revoir URL car ici "station" au lieu de "stationNumber"
     		.andExpect(status().isOk())
     		.andExpect(jsonPath("[0].firstname", is("Reginold")))
     		.andExpect(jsonPath("[0].lastname", is("Walker")))
@@ -290,7 +299,7 @@ public class SafetyAlertControllerTest {
     		
     	when(safetyAlertServiceMock.getInformationAboutPerson(firstnameMock,lastnameMock)).thenReturn(personInfoMock);
     	
-    	mockMvc.perform(get("/personInfo?firstname=" + firstnameMock + "&lastname=" + lastnameMock))
+    	mockMvc.perform(get("/personInfo?firstName=" + firstnameMock + "&lastName=" + lastnameMock))
     		.andExpect(status().isOk())
     		.andExpect(jsonPath("$.firstname").value("Alpha"))
     		.andExpect(jsonPath("$.lastname", is("Bravo")))
@@ -333,7 +342,7 @@ public class SafetyAlertControllerTest {
     		
     	when(safetyAlertServiceMock.getListOfHomeDeservedByFirestation(stationMock)).thenReturn(listOfFloodList);
     	
-    	mockMvc.perform(get("/flood/stations?station=" + stationMock))
+    	mockMvc.perform(get("/flood/stations?stations=" + stationMock))
     		.andExpect(status().isOk())
     		.andExpect(jsonPath("[0].firstname", is("Alpha")))
     		.andExpect(jsonPath("[0].lastname", is("Bravo")))

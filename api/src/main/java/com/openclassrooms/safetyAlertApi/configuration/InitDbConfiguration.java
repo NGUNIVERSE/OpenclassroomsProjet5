@@ -1,5 +1,6 @@
 package com.openclassrooms.safetyAlertApi.configuration;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URL;
@@ -42,12 +43,16 @@ public class InitDbConfiguration {
 	public void initDb() throws IOException
 	{
 		
-		URL lien = new URL("https://s3-eu-west-1.amazonaws.com/course.oc-static.com/projects/DA+Java+EN/P5+/data.json");
+	//	URL lien = new URL("https://s3-eu-west-1.amazonaws.com/course.oc-static.com/projects/DA+Java+EN/P5+/data.json");
+		
+		File file = new File("src/main/resources/data.json");
+		
 		LOGGER.info("testInitDb");
 		
 		ObjectMapper mapper = new ObjectMapper();
 		
-		JSON json = mapper.readValue(lien, JSON.class);
+		// JSON json = mapper.readValue(lien, JSON.class);
+		JSON json = mapper.readValue(file , JSON.class);
 		LOGGER.info(json.toString());
 		
 		

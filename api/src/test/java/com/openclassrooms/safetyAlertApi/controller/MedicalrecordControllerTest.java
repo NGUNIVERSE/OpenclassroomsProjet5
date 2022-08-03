@@ -81,14 +81,14 @@ public class MedicalrecordControllerTest {
     	when(medicalrecordServiceMock.getMedicalrecord(id1)).thenReturn(medicalrecordOptionalMock);
     	when(medicalrecordServiceMock.getMedicalrecord(id2)).thenReturn(medicalrecordOptionalMock1);
     	
-    	mockMvc.perform(get("/medicalrecord/{id}",id1)).andExpect(status().isOk())
+    	mockMvc.perform(get("/medicalRecord/{id}",id1)).andExpect(status().isOk())
           .andExpect(jsonPath("$.firstName").value("Reginold"))
           .andExpect(jsonPath("$.lastName").value("Walker"))
           .andExpect(jsonPath("$.birthdate").value("08/30/1979"))
           .andExpect(jsonPath("$.medications").value("thradox:700mg"))
     	  .andExpect(jsonPath("$.allergies").value("illisoxian"));
     	  
-    	mockMvc.perform(get("/medicalrecord/{id}",id2)).andExpect(status().isOk())
+    	mockMvc.perform(get("/medicalRecord/{id}",id2)).andExpect(status().isOk())
     	.andExpect(jsonPath("$.firstName").value("Ron"))
         .andExpect(jsonPath("$.lastName").value("Peters"))
         .andExpect(jsonPath("$.birthdate").value("04/06/1965"))
@@ -114,7 +114,7 @@ public class MedicalrecordControllerTest {
     	
     	when(medicalrecordServiceMock.getMedicalrecords()).thenReturn(listOfMedicalrecordTest);
      
- 	mockMvc.perform(get("/medicalrecords")).andExpect(status().isOk())
+ 	mockMvc.perform(get("/medicalRecords")).andExpect(status().isOk())
  		.andExpect(jsonPath("$[0].firstName", is("Reginold")))
  		.andExpect(jsonPath("$[0].lastName", is("Walker")))
  		.andExpect(jsonPath("$[0].birthdate", is("08/30/1979")))
@@ -134,7 +134,7 @@ public class MedicalrecordControllerTest {
     @Test
     public void testDeleteMedicalrecord() throws Exception{
          	
-     mockMvc.perform(delete("/medicalrecord/{id}",id2)).andExpect(status().isNoContent());
+     mockMvc.perform(delete("/medicalRecord/{id}",id2)).andExpect(status().isNoContent());
      verify(medicalrecordServiceMock).deleteMedicalrecord(id2);
 
     }
@@ -142,7 +142,7 @@ public class MedicalrecordControllerTest {
     @Test
     public void testGetMedicalrecordUnknownId() throws Exception{
     	
-    mockMvc.perform(get("/medicalrecord/{id}",id3)).andExpect(status().isNotFound());
+    mockMvc.perform(get("/medicalRecord/{id}",id3)).andExpect(status().isNotFound());
 	verify(medicalrecordServiceMock).getMedicalrecord(id3);
 	
 	}
@@ -160,7 +160,7 @@ public class MedicalrecordControllerTest {
      	String json =  mapper.writeValueAsString(medicalrecordMock1);
      	    	when(medicalrecordServiceMock.saveMedicalrecord(medicalrecordMock1)).thenReturn(medicalrecordMock1);
     	
-     mockMvc.perform(post("/medicalrecord")
+     mockMvc.perform(post("/medicalRecord")
     		 .contentType(MediaType.APPLICATION_JSON)
     		 .accept(MediaType.APPLICATION_JSON)
     		 .content(json))
@@ -188,7 +188,7 @@ public class MedicalrecordControllerTest {
 
     	  when(medicalrecordServiceMock.updateMedicalrecord(id1,medicalrecordMock1)).thenReturn(medicalrecordOptionalMock1);
      
-    		 mockMvc.perform(put("/medicalrecord/{id}",id1)
+    		 mockMvc.perform(put("/medicalRecord/{id}",id1)
     	    		 .contentType(MediaType.APPLICATION_JSON)
     	    		 .accept(MediaType.APPLICATION_JSON)
     	    		 .content(json))
@@ -213,7 +213,7 @@ public class MedicalrecordControllerTest {
      	String json =  mapper.writeValueAsString(medicalrecordMock);
 
      
-    		 mockMvc.perform(put("/medicalrecord/{id}",id1)
+    		 mockMvc.perform(put("/medicalRecord/{id}",id1)
     	    		 .contentType(MediaType.APPLICATION_JSON)
     	    		 .accept(MediaType.APPLICATION_JSON)
     	    		 .content(json))
