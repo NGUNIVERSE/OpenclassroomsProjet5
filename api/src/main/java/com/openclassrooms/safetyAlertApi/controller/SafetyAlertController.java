@@ -81,9 +81,9 @@ Cette url doit retourner une liste de tous les foyers desservis par la caserne. 
 personnes par adresse. Elle doit aussi inclure le nom, le numéro de téléphone et l'âge des habitants, et
 faire figurer leurs antécédents médicaux (médicaments, posologie et allergies) à côté de chaque nom.*/
 	    @GetMapping("/flood/stations")
-	    public List<FloodListDto> listOfHomeDeservedByFirestation(@RequestParam("stations") final String station)
+	    public List<FloodListDto> listOfHomeDeservedByFirestation(@RequestParam("stations") final String stations)
 	    {
-	    	return safetyAlertService.getListOfHomeDeservedByFirestation(station);
+	    	return safetyAlertService.getListOfHomeDeservedByFirestation(stations);  // mettre List String comme paramètre
 	    }
 }
 

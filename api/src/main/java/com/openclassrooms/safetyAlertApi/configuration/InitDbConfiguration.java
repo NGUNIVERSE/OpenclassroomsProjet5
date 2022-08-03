@@ -9,6 +9,7 @@ import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.event.EventListener;
@@ -20,6 +21,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.openclassrooms.safetyAlertApi.model.Firestation;
 import com.openclassrooms.safetyAlertApi.model.Medicalrecord;
 import com.openclassrooms.safetyAlertApi.model.Person;
+import com.openclassrooms.safetyAlertApi.repository.FirestationRepository;
 
 import lombok.Data;
 
@@ -38,6 +40,8 @@ public class InitDbConfiguration {
 		
 		
 	}
+	@Autowired 
+	private FirestationRepository firestationRepository;
 	
 	@EventListener(ApplicationReadyEvent.class)
 	public void initDb() throws IOException
@@ -45,16 +49,17 @@ public class InitDbConfiguration {
 		
 	//	URL lien = new URL("https://s3-eu-west-1.amazonaws.com/course.oc-static.com/projects/DA+Java+EN/P5+/data.json");
 		
-		File file = new File("src/main/resources/data.json");
+	//	File file = new File("src/main/resources/data.json");
 		
 		LOGGER.info("testInitDb");
 		
 		ObjectMapper mapper = new ObjectMapper();
 		
 		// JSON json = mapper.readValue(lien, JSON.class);
-		JSON json = mapper.readValue(file , JSON.class);
+		JSON json = mapper.readValue(getClass().getClassLoader().getResourceAsStream("data.json") , JSON.class);
 		LOGGER.info(json.toString());
 		
+		firestationRepository.saveAll(json.getFirestations());
 		
 		//	TypeReference<List<Person>> typeReference = new TypeReference<List<User>>(){};		
 		

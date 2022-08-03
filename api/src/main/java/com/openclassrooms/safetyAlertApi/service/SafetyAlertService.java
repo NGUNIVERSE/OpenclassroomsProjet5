@@ -54,24 +54,26 @@ public class SafetyAlertService {
 		List<ChildDto> listOfChild = new ArrayList<>();
 		List<Person> listOfPersonAtAnAddress = new ArrayList<>();
 		List<HomeMembresDto> listOfHomeMembers = new ArrayList<>();
-		listOfPersonAtAnAddress = personService.getPersonPerAddress(address);
-		Medicalrecord medicalrecord = new Medicalrecord();
-		Person person = new Person();
-		HomeMembresDto homeMembresDto = new HomeMembresDto();
+	//	listOfPersonAtAnAddress = personService.getPersonPerAddress(address);
 		
-		int i = 0;
-		long age = 0;
+		
+		//HomeMembresDto homeMembresDto = new HomeMembresDto();
+		
+	//	int i = 0;
 
-		for(i=0;i<listOfPersonAtAnAddress.size();i++)
+
+		for(Person person: personService.getPersonPerAddress(address))
 		{ 
-			person = listOfPersonAtAnAddress.get(i);
+			
+			HomeMembresDto homeMembresDto = new HomeMembresDto();
 			homeMembresDto.setFirstname(person.getFirstname());
 			homeMembresDto.setLastname(person.getLastname());
 			listOfHomeMembers.add(homeMembresDto);
 
-			medicalrecord = medicalrecordService.findMedicalrecordByFirstnameAndLastname(person.getFirstname(), person.getLastname() );
+			Medicalrecord medicalrecord = medicalrecordService.findMedicalrecordByFirstnameAndLastname(person.getFirstname(), person.getLastname() );
 			//calcul de l'age
-			age = getAge(medicalrecord.getBirthdate());
+
+			long age = getAge(medicalrecord.getBirthdate());
 		
 			if(age <= 18)
 			{	//si oui ajouter son nom à la liste child
@@ -223,6 +225,7 @@ toutes apparaître. */
 		List<Person> listOfPersonByAddress = personService.getPersonPerAddress(listOfFirestation);
 		int i = 0 ;
 		Medicalrecord medicalrecord = new Medicalrecord();
+		
 		for(i=0;i<listOfPersonByAddress.size();i++)
 		{
 			FloodListDto flood = new FloodListDto();

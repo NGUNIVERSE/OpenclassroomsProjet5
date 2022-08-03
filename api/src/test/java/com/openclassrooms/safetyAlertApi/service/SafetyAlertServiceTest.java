@@ -220,6 +220,9 @@ private Firestation mockFirestation1() {
     	homeMembresDtoMock.setFirstname(personMock.getFirstname());
     	homeMembresDtoMock1.setFirstname(personMock1.getFirstname());
     	homeMembresDtoMock2.setFirstname(personMock2.getFirstname());
+    	homeMembresDtoMock.setLastname(personMock.getLastname());
+    	homeMembresDtoMock1.setLastname(personMock1.getLastname());
+    	homeMembresDtoMock2.setLastname(personMock2.getLastname());
     	List<HomeMembresDto> listOfHomeMembres = new ArrayList<>();
     	listOfHomeMembres.add(homeMembresDtoMock);
     	listOfHomeMembres.add(homeMembresDtoMock1);
