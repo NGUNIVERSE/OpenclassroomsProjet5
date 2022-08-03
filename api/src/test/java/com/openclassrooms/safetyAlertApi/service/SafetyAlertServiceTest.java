@@ -432,7 +432,9 @@ public void getAgeTest() throws Exception
     	floodListMock1.setAllergies(List.of(""));
     	floodListMock1.setAddress("112 Steppes Pl");
     	    	
-    	String stationMock = "1";
+    	String stationNumerMock = "1";
+    	List<String> stationMock = new ArrayList<>();
+    	stationMock.add(stationNumerMock);
     	List<FloodListDto> listOfFloodList = new ArrayList<>();
     	listOfFloodList.add(floodListMock);
     	listOfFloodList.add(floodListMock1);
@@ -453,14 +455,14 @@ public void getAgeTest() throws Exception
 	    	Medicalrecord medicalrecordMock = mockMedicalrecord();
 	    	Medicalrecord medicalrecordMock1 = mockMedicalrecord1();
     		
-    	when(firestationServiceMock.getAddressByFirestation(stationMock)).thenReturn(listAddress);
+    	when(firestationServiceMock.getAddressByFirestation(stationNumerMock)).thenReturn(listAddress);
     	when(personServiceMock.getPersonPerAddress(listAddress)).thenReturn(listOfPerson);
     	when(medicalrecordServiceMock.findMedicalrecordByFirstnameAndLastname(listOfPerson.get(0).getFirstname(), listOfPerson.get(0).getLastname())).thenReturn(medicalrecordMock);
     	when(medicalrecordServiceMock.findMedicalrecordByFirstnameAndLastname(listOfPerson.get(1).getFirstname(), listOfPerson.get(1).getLastname())).thenReturn(medicalrecordMock1);
     	
     	List<FloodListDto> result = safetyAlertService.getListOfHomeDeservedByFirestation(stationMock);
     	
-    	verify(firestationServiceMock).getAddressByFirestation(stationMock);
+    	verify(firestationServiceMock).getAddressByFirestation(stationNumerMock);
     	verify(personServiceMock).getPersonPerAddress(listAddress);
     	verify(medicalrecordServiceMock).findMedicalrecordByFirstnameAndLastname(listOfPerson.get(0).getFirstname(), listOfPerson.get(0).getLastname());
     	verify(medicalrecordServiceMock).findMedicalrecordByFirstnameAndLastname(listOfPerson.get(1).getFirstname(), listOfPerson.get(1).getLastname());

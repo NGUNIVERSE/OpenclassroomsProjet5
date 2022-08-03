@@ -211,7 +211,7 @@ toutes apparaître. */
 		return personInfo;
 	}
 	
-	public List<FloodListDto> getListOfHomeDeservedByFirestation(String station)
+	public List<FloodListDto> getListOfHomeDeservedByFirestation(List<String> station)
 	{
 		 /*http://localhost:8080/flood/stations?stations=<a list of station_numbers>
 		Cette url doit retourner une liste de tous les foyers desservis par la caserne. Cette liste doit regrouper les
@@ -221,23 +221,28 @@ toutes apparaître. */
 		//renvoyer les personne par address
 		// trouver leur antecedant medicaux
 		List<FloodListDto> floodList = new ArrayList<>();
-		List<String> listOfFirestation = firestationService.getAddressByFirestation(station);
-		List<Person> listOfPersonByAddress = personService.getPersonPerAddress(listOfFirestation);
+				
 		int i = 0 ;
+		int j = 0 ; 
 		Medicalrecord medicalrecord = new Medicalrecord();
-		
-		for(i=0;i<listOfPersonByAddress.size();i++)
+		for(j = 0; j < station.size();j++)
 		{
-			FloodListDto flood = new FloodListDto();
-			medicalrecord = medicalrecordService.findMedicalrecordByFirstnameAndLastname(listOfPersonByAddress.get(i).getFirstname(), listOfPersonByAddress.get(i).getLastname());
-			flood.setAddress(listOfPersonByAddress.get(i).getAddress());
-			flood.setFirstname(listOfPersonByAddress.get(i).getFirstname());
-			flood.setLastname(listOfPersonByAddress.get(i).getLastname());
-			flood.setPhoneNumber(listOfPersonByAddress.get(i).getPhone());
-			flood.setAge(getAge(medicalrecord.getBirthdate()));
-			flood.setMedications(medicalrecord.getMedications());
-			flood.setAllergies(medicalrecord.getAllergies());
-			floodList.add(flood);
+			List<String> listOfFirestation = firestationService.getAddressByFirestation(station.get(j));
+			List<Person> listOfPersonByAddress = personService.getPersonPerAddress(listOfFirestation);
+			
+			for(i=0;i<listOfPersonByAddress.size();i++)
+			{
+				FloodListDto flood = new FloodListDto();
+				medicalrecord = medicalrecordService.findMedicalrecordByFirstnameAndLastname(listOfPersonByAddress.get(i).getFirstname(), listOfPersonByAddress.get(i).getLastname());
+				flood.setAddress(listOfPersonByAddress.get(i).getAddress());
+				flood.setFirstname(listOfPersonByAddress.get(i).getFirstname());
+				flood.setLastname(listOfPersonByAddress.get(i).getLastname());
+				flood.setPhoneNumber(listOfPersonByAddress.get(i).getPhone());
+				flood.setAge(getAge(medicalrecord.getBirthdate()));
+				flood.setMedications(medicalrecord.getMedications());
+				flood.setAllergies(medicalrecord.getAllergies());
+				floodList.add(flood);
+			}
 		}
 		return floodList;
 	}

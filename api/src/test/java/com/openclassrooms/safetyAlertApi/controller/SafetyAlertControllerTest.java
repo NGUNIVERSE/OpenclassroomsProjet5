@@ -335,14 +335,16 @@ public class SafetyAlertControllerTest {
     	floodListMock1.setAllergies(List.of("Delta1"));
     	floodListMock1.setAddress("1");
     	    	
-    	String stationMock = "1";
+    	String stationNumerMock = "1";
+    	List<String> stationMock = new ArrayList<>();
+    	stationMock.add(stationNumerMock);
     	List<FloodListDto> listOfFloodList = new ArrayList<>();
     	listOfFloodList.add(floodListMock);
     	listOfFloodList.add(floodListMock1);
     		
     	when(safetyAlertServiceMock.getListOfHomeDeservedByFirestation(stationMock)).thenReturn(listOfFloodList);
     	
-    	mockMvc.perform(get("/flood/stations?stations=" + stationMock))
+    	mockMvc.perform(get("/flood/stations?stations=" + stationMock.get(0)))
     		.andExpect(status().isOk())
     		.andExpect(jsonPath("[0].firstname", is("Alpha")))
     		.andExpect(jsonPath("[0].lastname", is("Bravo")))
