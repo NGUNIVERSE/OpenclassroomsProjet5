@@ -22,6 +22,8 @@ import com.openclassrooms.safetyAlertApi.model.Firestation;
 import com.openclassrooms.safetyAlertApi.model.Medicalrecord;
 import com.openclassrooms.safetyAlertApi.model.Person;
 import com.openclassrooms.safetyAlertApi.repository.FirestationRepository;
+import com.openclassrooms.safetyAlertApi.repository.MedicalrecordRepository;
+import com.openclassrooms.safetyAlertApi.repository.PersonRepository;
 
 import lombok.Data;
 
@@ -42,6 +44,10 @@ public class InitDbConfiguration {
 	}
 	@Autowired 
 	private FirestationRepository firestationRepository;
+	@Autowired
+	private PersonRepository personRepository;
+	@Autowired 
+	private MedicalrecordRepository medicalrecordRepository;
 	
 	@EventListener(ApplicationReadyEvent.class)
 	public void initDb() throws IOException
@@ -59,7 +65,10 @@ public class InitDbConfiguration {
 		JSON json = mapper.readValue(getClass().getClassLoader().getResourceAsStream("data.json") , JSON.class);
 		LOGGER.info(json.toString());
 		
+		personRepository.saveAll(json.getPersons());
+		medicalrecordRepository.saveAll(json.getMedicalrecords());
 		firestationRepository.saveAll(json.getFirestations());
+		
 		
 		//	TypeReference<List<Person>> typeReference = new TypeReference<List<User>>(){};		
 		
