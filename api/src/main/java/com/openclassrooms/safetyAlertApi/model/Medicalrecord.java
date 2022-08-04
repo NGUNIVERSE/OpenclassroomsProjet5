@@ -1,5 +1,6 @@
 package com.openclassrooms.safetyAlertApi.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Convert;
@@ -41,6 +42,22 @@ public class Medicalrecord {
   
   //private String allergies;
   
+  public void setMedications(List<String> medications)
+  {
+	  this.medications = medications == null ? null : new ArrayList<>(medications);
+  }
+  public List<String> getMedications()
+  {
+	  return medications = medications == null ? null : new ArrayList<>(medications);
+  }
+  public void setAllergies(List<String> allergies)
+  {
+	  this.allergies = allergies == null ? null : new ArrayList<>(allergies);
+  }
+  public List<String> getAllergies()
+  {
+	return allergies = allergies == null ? null : new ArrayList<>(allergies);  
+  }
 
 
 }

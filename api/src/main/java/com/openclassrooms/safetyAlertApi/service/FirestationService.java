@@ -70,10 +70,10 @@ public class FirestationService {
 		Iterable<Firestation> firestation = firestationRepository.findByStation(station);
 		for(Firestation Firestation : firestation)
 		{
-			String addressByFirestationNumber = new String();
-			addressByFirestationNumber = Firestation.getAddress();
+		//	String addressByFirestationNumber = new String();
+		//	addressByFirestationNumber = Firestation.getAddress();
 		//	addressByFirestationNumber.setStation(Firestation.getStation());
-			listOfAddressByFirestationNumber.add(addressByFirestationNumber);
+			listOfAddressByFirestationNumber.add(Firestation.getAddress());
 		}
 		
 		return listOfAddressByFirestationNumber;

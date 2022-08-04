@@ -1,4 +1,5 @@
 package com.openclassrooms.safetyAlertApi.dto;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Convert;
@@ -43,8 +44,25 @@ toutes apparaître.*/
 		this.address = address;
 		this.age = age;
 		this.email = email;
-		this.medications = medications;
-		this.allergies = allergies;
+		this.medications = medications == null ? null : new ArrayList<>(medications);
+		this.allergies = allergies ==  null ? null : new ArrayList<>(allergies);
 	}
 	
+	public void setAllergies(List<String> allergies)
+	{
+		this.allergies = allergies == null ? null : new ArrayList<>(allergies);
+	}
+	public List<String> getAllergies()
+	{
+		return allergies = allergies == null ? null : new ArrayList<>(allergies);		
+	}
+
+	public void setMedications(List<String> medications)
+	{
+		this.medications = medications == null ? null : new ArrayList<>(medications);
+	}
+	public List<String> getMedications()
+	{
+		return medications = medications == null ? null : new ArrayList<>(medications);
+	}
 }

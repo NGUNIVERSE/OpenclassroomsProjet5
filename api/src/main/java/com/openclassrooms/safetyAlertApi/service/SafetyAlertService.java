@@ -11,7 +11,7 @@ import com.openclassrooms.safetyAlertApi.dto.FloodListDto;
 import com.openclassrooms.safetyAlertApi.dto.HomeMembresDto;
 import com.openclassrooms.safetyAlertApi.dto.PersonCoveredDto;
 import com.openclassrooms.safetyAlertApi.dto.PersonInfoDto;
-import com.openclassrooms.safetyAlertApi.dto.PersonInfosDto;
+//import com.openclassrooms.safetyAlertApi.dto.PersonInfosDto;
 import com.openclassrooms.safetyAlertApi.dto.PersonLivingAtAnAddressDto;
 import com.openclassrooms.safetyAlertApi.model.Firestation;
 import com.openclassrooms.safetyAlertApi.model.Medicalrecord;
@@ -52,7 +52,7 @@ public class SafetyAlertService {
 	public List<ChildDto> getChildListFromAnAddress(String address)
 	{
 		List<ChildDto> listOfChild = new ArrayList<>();
-		List<Person> listOfPersonAtAnAddress = new ArrayList<>();
+	//	List<Person> listOfPersonAtAnAddress = new ArrayList<>();
 		List<HomeMembresDto> listOfHomeMembers = new ArrayList<>();
 	//	listOfPersonAtAnAddress = personService.getPersonPerAddress(address);
 		
@@ -246,5 +246,13 @@ toutes apparaître. */
 		}
 		return floodList;
 	}
+//	public void setFirestationService(FirestationService firestationService)
+//	{
+//		this.firestationService = firestationService == null ? null : new FirestationService() ;
+//	}
+//	public FirestationService getFirestationService()
+//	{
+//		return firestationService == null ? null : new FirestationService();
+//	}
 }
 

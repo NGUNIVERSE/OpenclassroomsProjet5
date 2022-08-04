@@ -1,4 +1,5 @@
 package com.openclassrooms.safetyAlertApi.dto;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Convert;
@@ -44,8 +45,24 @@ public FloodListDto(String address, String firstname, String lastname, String ph
 	this.lastname = lastname;
 	this.phoneNumber = phoneNumber;
 	this.age = age;
-	this.medications = medications;
-	this.allergies = allergies;
+	this.medications = medications == null ? null : new ArrayList<>(medications);
+	this.allergies = allergies ==  null ? null : new ArrayList<>(allergies);
 }
 
+public List<String> getAllergies()
+{
+	return allergies == null ? null : new ArrayList<>(allergies);
+}
+public List<String> getMedications()
+{
+	return medications == null ? null : new ArrayList<>(medications);
+}
+public void setAllergies(List<String> allergies)
+{
+	this.allergies = allergies == null ? null : new ArrayList<>(allergies);
+}
+public void setMedications(List<String> medications)
+{
+	this.medications = medications == null ? null : new ArrayList<>(medications);
+}
 }

@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.openclassrooms.safetyAlertApi.dto.EmailDto;
-import com.openclassrooms.safetyAlertApi.dto.PersonInfosDto;
+//import com.openclassrooms.safetyAlertApi.dto.PersonInfosDto;
 import com.openclassrooms.safetyAlertApi.model.Firestation;
 import com.openclassrooms.safetyAlertApi.model.Medicalrecord;
 import com.openclassrooms.safetyAlertApi.model.Person;
@@ -149,9 +149,9 @@ public List<String> getPhoneNumberOfPerson(List<Person> listOfPerson)
 	Iterable<Person> listOfPersons = listOfPerson;
 	for(Person Person : listOfPersons)
 	{
-		String phoneNumber = new String();
-		phoneNumber = Person.getPhone();
-		listOfPhoneNumber.add(phoneNumber);
+	//	String phoneNumber = new String();
+	//	phoneNumber = Person.getPhone();
+		listOfPhoneNumber.add(Person.getPhone());
 	}
 	
 	return listOfPhoneNumber;
