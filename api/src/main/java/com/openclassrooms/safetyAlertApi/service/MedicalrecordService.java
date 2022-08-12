@@ -12,68 +12,67 @@ import com.openclassrooms.safetyAlertApi.repository.MedicalrecordRepository;
 
 import lombok.Data;
 
-
-
-
 @Data
 @Service
 public class MedicalrecordService {
 
-    @Autowired
-    private MedicalrecordRepository medicalrecordRepository;
+	@Autowired
+	private MedicalrecordRepository medicalrecordRepository;
 
-    public Optional<Medicalrecord> getMedicalrecord(final Long id) {
-        return medicalrecordRepository.findById(id);
-    }
+	public Optional<Medicalrecord> getMedicalrecord(final Long id) {
+		return medicalrecordRepository.findById(id);
+	}
 
-    public Iterable<Medicalrecord> getMedicalrecords() {
-        return medicalrecordRepository.findAll();
-    }
+	public Iterable<Medicalrecord> getMedicalrecords() {
+		return medicalrecordRepository.findAll();
+	}
 
-    public void deleteMedicalrecord(final Long id) {
-    	medicalrecordRepository.deleteById(id);
-    }
+	public void deleteMedicalrecord(final Long id) {
+		medicalrecordRepository.deleteById(id);
+	}
 
-    public Medicalrecord saveMedicalrecord(Medicalrecord medicalrecord) {
-    	Medicalrecord savedMedicalrecord = medicalrecordRepository.save(medicalrecord);
-        return savedMedicalrecord;
-    }
-    
-   
+	public Medicalrecord saveMedicalrecord(Medicalrecord medicalrecord) {
+		Medicalrecord savedMedicalrecord = medicalrecordRepository.save(medicalrecord);
+		return savedMedicalrecord;
+	}
+
 	public Optional<Medicalrecord> updateMedicalrecord(final Long id, Medicalrecord medicalrecord) {
 		Optional<Medicalrecord> e = medicalrecordRepository.findById(id);
-		if(e.isPresent()) {
+		if (e.isPresent()) {
 			Medicalrecord currentMedicalrecord = e.get();
-			
+
 			String firstname = medicalrecord.getFirstname();
-			if(firstname != null) {
+			if (firstname != null) {
 				currentMedicalrecord.setFirstname(firstname);
 			}
 			String lastname = medicalrecord.getLastname();
-			if(lastname != null) {
+			if (lastname != null) {
 				currentMedicalrecord.setLastname(lastname);
 			}
 			String birthdate = medicalrecord.getBirthdate();
-			if(birthdate != null) {
-				currentMedicalrecord.setBirthdate(birthdate);;
+			if (birthdate != null) {
+				currentMedicalrecord.setBirthdate(birthdate);
+				;
 			}
 			List<String> medications = medicalrecord.getMedications();
-			if(medications != null) {
-				currentMedicalrecord.setMedications(medications);;
+			if (medications != null) {
+				currentMedicalrecord.setMedications(medications);
+				;
 			}
 			List<String> allergies = medicalrecord.getAllergies();
-			if(allergies != null) {
-				currentMedicalrecord.setAllergies(allergies);;
-			}	
-			
+			if (allergies != null) {
+				currentMedicalrecord.setAllergies(allergies);
+				;
+			}
+
 			return Optional.of(medicalrecordRepository.save(currentMedicalrecord));
-		
+
 		} else {
 			return (Optional.empty());
 		}
 	}
-	public Medicalrecord findMedicalrecordByFirstnameAndLastname(String firstname, String lastname)
-	{
+
+	public Medicalrecord findMedicalrecordByFirstnameAndLastname(String firstname, String lastname) {
 		return medicalrecordRepository.findMedicalrecordByFirstnameAndLastname(firstname, lastname);
 	}
 
