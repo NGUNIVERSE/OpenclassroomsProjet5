@@ -36,9 +36,6 @@ public class SafetyAlertServiceTest {
 	@Mock
 	private MedicalrecordService medicalrecordServiceMock;
 
-	@Mock
-	private SafetyAlertService safetyAlertServiceMock;
-
 	@InjectMocks
 	private SafetyAlertService safetyAlertService;
 
