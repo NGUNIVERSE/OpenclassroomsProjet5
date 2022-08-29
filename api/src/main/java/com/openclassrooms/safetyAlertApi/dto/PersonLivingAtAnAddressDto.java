@@ -26,8 +26,8 @@ public class PersonLivingAtAnAddressDto {
 		this.lastname = lastname;
 		this.phoneNumber = phoneNumber;
 		this.age = age;
-		this.medications = medications == null ? null : new ArrayList<>(medications);
-		this.allergies = allergies == null ? null : new ArrayList<>(allergies);
+		this.medications = medications;
+		this.allergies = allergies;
 		this.firestationNumber = firestationNumber;
 
 	}
@@ -36,20 +36,5 @@ public class PersonLivingAtAnAddressDto {
 
 	}
 
-	public void setMedications(List<String> medications) {
-		this.medications = medications == null ? null : new ArrayList<>(medications);
-	}
-
-	public List<String> getMedications() {
-		return medications = medications == null ? null : new ArrayList<>(medications);
-	}
-
-	public void setAllergies(List<String> allergies) {
-		this.allergies = allergies == null ? null : new ArrayList<>(allergies);
-	}
-
-	public List<String> getAllergies() {
-		return allergies = allergies == null ? null : new ArrayList<>(allergies);
-	}
 
 }

@@ -42,39 +42,45 @@ public class SafetyAlertService {
 
 	public List<ChildDto> getChildListFromAnAddress(String address) {
 		List<ChildDto> listOfChild = new ArrayList<>();
-		// List<Person> listOfPersonAtAnAddress = new ArrayList<>();
+	 List<Person> listOfPersonAtAnAddress = new ArrayList<>();
 		List<HomeMembresDto> listOfHomeMembers = new ArrayList<>();
-		// listOfPersonAtAnAddress = personService.getPersonPerAddress(address);
+	 listOfPersonAtAnAddress = personService.getPersonPerAddress(address);
 
 		// HomeMembresDto homeMembresDto = new HomeMembresDto();
 
 		// int i = 0;
+		
+		//for (Person person : personService.getPersonPerAddress(address)) {
+for(int i = 0;i<listOfPersonAtAnAddress.size();i++) {
 
-		for (Person person : personService.getPersonPerAddress(address)) {
+	HomeMembresDto homeMembresDto = new HomeMembresDto();
+		homeMembresDto.setFirstname(listOfPersonAtAnAddress.get(i).getFirstname());
+		homeMembresDto.setLastname(listOfPersonAtAnAddress.get(i).getLastname());
+		listOfHomeMembers.add(homeMembresDto);
 
-			HomeMembresDto homeMembresDto = new HomeMembresDto();
-			homeMembresDto.setFirstname(person.getFirstname());
-			homeMembresDto.setLastname(person.getLastname());
-			listOfHomeMembers.add(homeMembresDto);
+
 
 			Medicalrecord medicalrecord = medicalrecordService
-					.findMedicalrecordByFirstnameAndLastname(person.getFirstname(), person.getLastname());
+					.findMedicalrecordByFirstnameAndLastname(listOfPersonAtAnAddress.get(i).getFirstname(), listOfPersonAtAnAddress.get(i).getLastname());
 			// calcul de l'age
 
 			long age = getAge(medicalrecord.getBirthdate());
 
+			
 			if (age <= 18) { // si oui ajouter son nom à la liste child
 				// homeMembresDto.setFirstname(person.getFirstname());
 				// homeMembresDto.setLastname(person.getLastname());
 				// listOfHomeMembers.add(homeMembresDto);
-
-				ChildDto child = new ChildDto(person.getFirstname(), person.getLastname(), age, listOfHomeMembers);
+				
+				ChildDto child = new ChildDto(listOfPersonAtAnAddress.get(i).getFirstname(), listOfPersonAtAnAddress.get(i).getLastname(), age, listOfHomeMembers);
 				listOfChild.add(child);
 			} else {
+				
 			}
+			
 			// si oui ajouter son nom à la liste child
 			// si non ajouter son nom dans la liste des homemembers
-		}
+		} 
 
 		return listOfChild;
 	}

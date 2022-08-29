@@ -1,12 +1,6 @@
 package com.openclassrooms.safetyAlertApi.dto;
 
-import java.util.ArrayList;
 import java.util.List;
-
-import javax.persistence.Convert;
-
-import com.openclassrooms.safetyAlertApi.model.converter.StringListConverter;
-
 import lombok.Data;
 
 @Data
@@ -24,14 +18,10 @@ public class FloodListDto {
 	private String lastname;
 	private String phoneNumber;
 	private long age;
-//private String medications;
-	@Convert(converter = StringListConverter.class)
+
 	private List<String> medications;
 
-	@Convert(converter = StringListConverter.class)
 	private List<String> allergies;
-
-//private String allergies;
 
 	public FloodListDto() {
 
@@ -44,23 +34,8 @@ public class FloodListDto {
 		this.lastname = lastname;
 		this.phoneNumber = phoneNumber;
 		this.age = age;
-		this.medications = medications == null ? null : new ArrayList<>(medications);
-		this.allergies = allergies == null ? null : new ArrayList<>(allergies);
+		this.medications = medications ;
+		this.allergies = allergies ;
 	}
 
-	public List<String> getAllergies() {
-		return allergies == null ? null : new ArrayList<>(allergies);
-	}
-
-	public List<String> getMedications() {
-		return medications == null ? null : new ArrayList<>(medications);
-	}
-
-	public void setAllergies(List<String> allergies) {
-		this.allergies = allergies == null ? null : new ArrayList<>(allergies);
-	}
-
-	public void setMedications(List<String> medications) {
-		this.medications = medications == null ? null : new ArrayList<>(medications);
-	}
 }
