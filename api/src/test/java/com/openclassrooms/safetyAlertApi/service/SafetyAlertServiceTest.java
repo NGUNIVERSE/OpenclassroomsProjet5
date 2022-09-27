@@ -22,7 +22,7 @@ import com.openclassrooms.safetyAlertApi.dto.PersonCoveredDto;
 import com.openclassrooms.safetyAlertApi.dto.PersonInfoDto;
 import com.openclassrooms.safetyAlertApi.dto.PersonLivingAtAnAddressDto;
 import com.openclassrooms.safetyAlertApi.model.Firestation;
-import com.openclassrooms.safetyAlertApi.model.Medicalrecord;
+import com.openclassrooms.safetyAlertApi.model.MedicalRecord;
 import com.openclassrooms.safetyAlertApi.model.Person;
 
 public class SafetyAlertServiceTest {
@@ -34,7 +34,7 @@ public class SafetyAlertServiceTest {
 	private PersonService personServiceMock;
 
 	@Mock
-	private MedicalrecordService medicalrecordServiceMock;
+	private MedicalRecordService medicalRecordServiceMock;
 
 	@InjectMocks
 	private SafetyAlertService safetyAlertService;
@@ -81,7 +81,7 @@ public class SafetyAlertServiceTest {
 		return personMock2;
 	}
 
-	private Medicalrecord mockMedicalrecord() {
+	private MedicalRecord mockMedicalRecord() {
 
 		long age = 42;
 		LocalDate localDate = LocalDate.now().minusYears(age);
@@ -89,18 +89,18 @@ public class SafetyAlertServiceTest {
 
 		String dateMock = localDate.format(formatter);
 
-		Medicalrecord medicalrecordMock = new Medicalrecord();
-		medicalrecordMock.setFirstname("Reginold");
-		medicalrecordMock.setLastname("Walker");
-		medicalrecordMock.setBirthdate(dateMock);
-		medicalrecordMock.setMedications(List.of("thradox:700mg"));
-		medicalrecordMock.setAllergies(List.of("illisoxian"));
+		MedicalRecord medicalRecordMock = new MedicalRecord();
+		medicalRecordMock.setFirstname("Reginold");
+		medicalRecordMock.setLastname("Walker");
+		medicalRecordMock.setBirthdate(dateMock);
+		medicalRecordMock.setMedications(List.of("thradox:700mg"));
+		medicalRecordMock.setAllergies(List.of("illisoxian"));
 
 		;
-		return medicalrecordMock;
+		return medicalRecordMock;
 	}
 
-	private Medicalrecord mockMedicalrecord1() {
+	private MedicalRecord mockMedicalRecord1() {
 
 		long age = 57;
 		LocalDate localDate = LocalDate.now().minusYears(age);
@@ -108,16 +108,16 @@ public class SafetyAlertServiceTest {
 
 		String dateMock = localDate.format(formatter);
 
-		Medicalrecord medicalrecordMock1 = new Medicalrecord();
-		medicalrecordMock1.setFirstname("Ron");
-		medicalrecordMock1.setLastname("Peters");
-		medicalrecordMock1.setBirthdate(dateMock);
-		medicalrecordMock1.setMedications(List.of(""));
-		medicalrecordMock1.setAllergies(List.of(""));
-		return medicalrecordMock1;
+		MedicalRecord medicalRecordMock1 = new MedicalRecord();
+		medicalRecordMock1.setFirstname("Ron");
+		medicalRecordMock1.setLastname("Peters");
+		medicalRecordMock1.setBirthdate(dateMock);
+		medicalRecordMock1.setMedications(List.of(""));
+		medicalRecordMock1.setAllergies(List.of(""));
+		return medicalRecordMock1;
 	}
 
-	private Medicalrecord mockMedicalrecord2() {
+	private MedicalRecord mockMedicalRecord2() {
 
 		long age = 2;
 		LocalDate localDate = LocalDate.now().minusYears(age);
@@ -125,13 +125,13 @@ public class SafetyAlertServiceTest {
 
 		String dateMock = localDate.format(formatter);
 
-		Medicalrecord medicalrecordMock2 = new Medicalrecord();
-		medicalrecordMock2.setFirstname("Junior");
-		medicalrecordMock2.setLastname("Junior");
-		medicalrecordMock2.setBirthdate(dateMock);
-		medicalrecordMock2.setMedications(List.of("thradox:700mg"));
-		medicalrecordMock2.setAllergies(List.of("illisoxian"));
-		return medicalrecordMock2;
+		MedicalRecord medicalRecordMock2 = new MedicalRecord();
+		medicalRecordMock2.setFirstname("Junior");
+		medicalRecordMock2.setLastname("Junior");
+		medicalRecordMock2.setBirthdate(dateMock);
+		medicalRecordMock2.setMedications(List.of("thradox:700mg"));
+		medicalRecordMock2.setAllergies(List.of("illisoxian"));
+		return medicalRecordMock2;
 	}
 
 	private Firestation mockFirestation() {
@@ -210,9 +210,9 @@ public class SafetyAlertServiceTest {
 		listOfHomeMembres.add(homeMembresDtoMock1);
 		listOfHomeMembres.add(homeMembresDtoMock2);
 
-		Medicalrecord medicalrecordMock = mockMedicalrecord();
-		Medicalrecord medicalrecordMock1 = mockMedicalrecord1();
-		Medicalrecord medicalrecordMock2 = mockMedicalrecord2();
+		MedicalRecord medicalRecordMock = mockMedicalRecord();
+		MedicalRecord medicalRecordMock1 = mockMedicalRecord1();
+		MedicalRecord medicalRecordMock2 = mockMedicalRecord2();
 
 		ChildDto childMock = new ChildDto("Junior", "Junior", 2, listOfHomeMembres);
 
@@ -220,21 +220,21 @@ public class SafetyAlertServiceTest {
 		listOfChild.add(childMock);
 
 		when(personServiceMock.getPersonPerAddress(addressMock)).thenReturn(listOfPerson);
-		when(medicalrecordServiceMock.findMedicalrecordByFirstnameAndLastname(personMock.getFirstname(),
-				personMock.getLastname())).thenReturn(medicalrecordMock);
-		when(medicalrecordServiceMock.findMedicalrecordByFirstnameAndLastname(personMock1.getFirstname(),
-				personMock1.getLastname())).thenReturn(medicalrecordMock1);
-		when(medicalrecordServiceMock.findMedicalrecordByFirstnameAndLastname(personMock2.getFirstname(),
-				personMock2.getLastname())).thenReturn(medicalrecordMock2);
+		when(medicalRecordServiceMock.findMedicalRecordByFirstnameAndLastname(personMock.getFirstname(),
+				personMock.getLastname())).thenReturn(medicalRecordMock);
+		when(medicalRecordServiceMock.findMedicalRecordByFirstnameAndLastname(personMock1.getFirstname(),
+				personMock1.getLastname())).thenReturn(medicalRecordMock1);
+		when(medicalRecordServiceMock.findMedicalRecordByFirstnameAndLastname(personMock2.getFirstname(),
+				personMock2.getLastname())).thenReturn(medicalRecordMock2);
 
 		List<ChildDto> result = safetyAlertService.getChildListFromAnAddress(addressMock);
 
 		verify(personServiceMock).getPersonPerAddress(addressMock);
-		verify(medicalrecordServiceMock).findMedicalrecordByFirstnameAndLastname(personMock.getFirstname(),
+		verify(medicalRecordServiceMock).findMedicalRecordByFirstnameAndLastname(personMock.getFirstname(),
 				personMock.getLastname());
-		verify(medicalrecordServiceMock).findMedicalrecordByFirstnameAndLastname(personMock1.getFirstname(),
+		verify(medicalRecordServiceMock).findMedicalRecordByFirstnameAndLastname(personMock1.getFirstname(),
 				personMock1.getLastname());
-		verify(medicalrecordServiceMock).findMedicalrecordByFirstnameAndLastname(personMock2.getFirstname(),
+		verify(medicalRecordServiceMock).findMedicalRecordByFirstnameAndLastname(personMock2.getFirstname(),
 				personMock2.getLastname());
 
 		assertThat(result).isEqualTo(listOfChild);
@@ -278,8 +278,8 @@ public class SafetyAlertServiceTest {
 		listOfPerson.add(personMock);
 		listOfPerson.add(personMock1);
 
-		Medicalrecord medicalrecordMock = mockMedicalrecord();
-		Medicalrecord medicalrecordMock1 = mockMedicalrecord1();
+		MedicalRecord medicalRecordMock = mockMedicalRecord();
+		MedicalRecord medicalRecordMock1 = mockMedicalRecord1();
 
 		String stationMock = "1";
 		List<PersonCoveredDto> listOfPersonCovered = new ArrayList<>();
@@ -302,18 +302,18 @@ public class SafetyAlertServiceTest {
 
 		when(firestationServiceMock.getAddressByFirestation(stationMock)).thenReturn(listAddress);
 		when(personServiceMock.getPersonPerAddress(listAddress)).thenReturn(listOfPerson);
-		when(medicalrecordServiceMock.findMedicalrecordByFirstnameAndLastname(listOfPerson.get(0).getFirstname(),
-				listOfPerson.get(0).getLastname())).thenReturn(medicalrecordMock);
-		when(medicalrecordServiceMock.findMedicalrecordByFirstnameAndLastname(listOfPerson.get(1).getFirstname(),
-				listOfPerson.get(1).getLastname())).thenReturn(medicalrecordMock1);
+		when(medicalRecordServiceMock.findMedicalRecordByFirstnameAndLastname(listOfPerson.get(0).getFirstname(),
+				listOfPerson.get(0).getLastname())).thenReturn(medicalRecordMock);
+		when(medicalRecordServiceMock.findMedicalRecordByFirstnameAndLastname(listOfPerson.get(1).getFirstname(),
+				listOfPerson.get(1).getLastname())).thenReturn(medicalRecordMock1);
 
 		List<PersonCoveredDto> result = safetyAlertService.getPersonCoveredByFirestation(stationMock);
 
 		verify(firestationServiceMock).getAddressByFirestation(stationMock);
 		verify(personServiceMock).getPersonPerAddress(listAddress);
-		verify(medicalrecordServiceMock).findMedicalrecordByFirstnameAndLastname(listOfPerson.get(0).getFirstname(),
+		verify(medicalRecordServiceMock).findMedicalRecordByFirstnameAndLastname(listOfPerson.get(0).getFirstname(),
 				listOfPerson.get(0).getLastname());
-		verify(medicalrecordServiceMock).findMedicalrecordByFirstnameAndLastname(listOfPerson.get(1).getFirstname(),
+		verify(medicalRecordServiceMock).findMedicalRecordByFirstnameAndLastname(listOfPerson.get(1).getFirstname(),
 				listOfPerson.get(1).getLastname());
 		assertThat(result).isEqualTo(listOfPersonCovered);
 	}
@@ -347,8 +347,8 @@ public class SafetyAlertServiceTest {
 
 		Firestation firestationMock = mockFirestation();
 
-		Medicalrecord medicalrecordMock = mockMedicalrecord();
-		Medicalrecord medicalrecordMock1 = mockMedicalrecord1();
+		MedicalRecord medicalRecordMock = mockMedicalRecord();
+		MedicalRecord medicalRecordMock1 = mockMedicalRecord1();
 
 		String addressMock = "Roissy";
 		List<PersonLivingAtAnAddressDto> listOfPersonLivingAtAnAddress = new ArrayList<>();
@@ -357,18 +357,18 @@ public class SafetyAlertServiceTest {
 
 		when(personServiceMock.getPersonPerAddress(addressMock)).thenReturn(listOfPerson);
 		when(firestationServiceMock.getFirestationByAddress(addressMock)).thenReturn(firestationMock);
-		when(medicalrecordServiceMock.findMedicalrecordByFirstnameAndLastname(listOfPerson.get(0).getFirstname(),
-				listOfPerson.get(0).getLastname())).thenReturn(medicalrecordMock);
-		when(medicalrecordServiceMock.findMedicalrecordByFirstnameAndLastname(listOfPerson.get(1).getFirstname(),
-				listOfPerson.get(1).getLastname())).thenReturn(medicalrecordMock1);
+		when(medicalRecordServiceMock.findMedicalRecordByFirstnameAndLastname(listOfPerson.get(0).getFirstname(),
+				listOfPerson.get(0).getLastname())).thenReturn(medicalRecordMock);
+		when(medicalRecordServiceMock.findMedicalRecordByFirstnameAndLastname(listOfPerson.get(1).getFirstname(),
+				listOfPerson.get(1).getLastname())).thenReturn(medicalRecordMock1);
 
 		List<PersonLivingAtAnAddressDto> result = safetyAlertService.getPersonLivingAtAnAddress(addressMock);
 
 		verify(personServiceMock).getPersonPerAddress(addressMock);
 		verify(firestationServiceMock).getFirestationByAddress(addressMock);
-		verify(medicalrecordServiceMock).findMedicalrecordByFirstnameAndLastname(listOfPerson.get(0).getFirstname(),
+		verify(medicalRecordServiceMock).findMedicalRecordByFirstnameAndLastname(listOfPerson.get(0).getFirstname(),
 				listOfPerson.get(0).getLastname());
-		verify(medicalrecordServiceMock).findMedicalrecordByFirstnameAndLastname(listOfPerson.get(1).getFirstname(),
+		verify(medicalRecordServiceMock).findMedicalRecordByFirstnameAndLastname(listOfPerson.get(1).getFirstname(),
 				listOfPerson.get(1).getLastname());
 		assertThat(result).isEqualTo(listOfPersonLivingAtAnAddress);
 
@@ -387,19 +387,19 @@ public class SafetyAlertServiceTest {
 		personInfoMock.setEmail("reg@email.com");
 
 		Person personMock = mockPerson();
-		Medicalrecord medicalrecordMock = mockMedicalrecord();
+		MedicalRecord medicalRecordMock = mockMedicalRecord();
 
 		String firstnameMock = "Reginold";
 		String lastnameMock = "Walker";
 
 		when(personServiceMock.getPersonByFirstnameAndLastname(firstnameMock, lastnameMock)).thenReturn(personMock);
-		when(medicalrecordServiceMock.findMedicalrecordByFirstnameAndLastname(firstnameMock, lastnameMock))
-				.thenReturn(medicalrecordMock);
+		when(medicalRecordServiceMock.findMedicalRecordByFirstnameAndLastname(firstnameMock, lastnameMock))
+				.thenReturn(medicalRecordMock);
 
 		PersonInfoDto result = safetyAlertService.getInformationAboutPerson(firstnameMock, lastnameMock);
 
 		verify(personServiceMock).getPersonByFirstnameAndLastname(firstnameMock, lastnameMock);
-		verify(medicalrecordServiceMock).findMedicalrecordByFirstnameAndLastname(firstnameMock, lastnameMock);
+		verify(medicalRecordServiceMock).findMedicalRecordByFirstnameAndLastname(firstnameMock, lastnameMock);
 		assertThat(result).isEqualTo(personInfoMock);
 	}
 
@@ -444,23 +444,23 @@ public class SafetyAlertServiceTest {
 		listOfPerson.add(personMock);
 		listOfPerson.add(personMock1);
 
-		Medicalrecord medicalrecordMock = mockMedicalrecord();
-		Medicalrecord medicalrecordMock1 = mockMedicalrecord1();
+		MedicalRecord medicalRecordMock = mockMedicalRecord();
+		MedicalRecord medicalRecordMock1 = mockMedicalRecord1();
 
 		when(firestationServiceMock.getAddressByFirestation(stationNumerMock)).thenReturn(listAddress);
 		when(personServiceMock.getPersonPerAddress(listAddress)).thenReturn(listOfPerson);
-		when(medicalrecordServiceMock.findMedicalrecordByFirstnameAndLastname(listOfPerson.get(0).getFirstname(),
-				listOfPerson.get(0).getLastname())).thenReturn(medicalrecordMock);
-		when(medicalrecordServiceMock.findMedicalrecordByFirstnameAndLastname(listOfPerson.get(1).getFirstname(),
-				listOfPerson.get(1).getLastname())).thenReturn(medicalrecordMock1);
+		when(medicalRecordServiceMock.findMedicalRecordByFirstnameAndLastname(listOfPerson.get(0).getFirstname(),
+				listOfPerson.get(0).getLastname())).thenReturn(medicalRecordMock);
+		when(medicalRecordServiceMock.findMedicalRecordByFirstnameAndLastname(listOfPerson.get(1).getFirstname(),
+				listOfPerson.get(1).getLastname())).thenReturn(medicalRecordMock1);
 
 		List<FloodListDto> result = safetyAlertService.getListOfHomeDeservedByFirestation(stationMock);
 
 		verify(firestationServiceMock).getAddressByFirestation(stationNumerMock);
 		verify(personServiceMock).getPersonPerAddress(listAddress);
-		verify(medicalrecordServiceMock).findMedicalrecordByFirstnameAndLastname(listOfPerson.get(0).getFirstname(),
+		verify(medicalRecordServiceMock).findMedicalRecordByFirstnameAndLastname(listOfPerson.get(0).getFirstname(),
 				listOfPerson.get(0).getLastname());
-		verify(medicalrecordServiceMock).findMedicalrecordByFirstnameAndLastname(listOfPerson.get(1).getFirstname(),
+		verify(medicalRecordServiceMock).findMedicalRecordByFirstnameAndLastname(listOfPerson.get(1).getFirstname(),
 				listOfPerson.get(1).getLastname());
 		assertThat(result).isEqualTo(listOfFloodList);
 	}

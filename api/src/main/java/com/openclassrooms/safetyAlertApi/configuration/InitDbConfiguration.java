@@ -10,12 +10,13 @@ import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.event.EventListener;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.openclassrooms.safetyAlertApi.model.Firestation;
-import com.openclassrooms.safetyAlertApi.model.Medicalrecord;
+import com.openclassrooms.safetyAlertApi.model.MedicalRecord;
 import com.openclassrooms.safetyAlertApi.model.Person;
 import com.openclassrooms.safetyAlertApi.repository.FirestationRepository;
-import com.openclassrooms.safetyAlertApi.repository.MedicalrecordRepository;
+import com.openclassrooms.safetyAlertApi.repository.MedicalRecordRepository;
 import com.openclassrooms.safetyAlertApi.repository.PersonRepository;
 
 import lombok.Data;
@@ -30,8 +31,10 @@ public class InitDbConfiguration {
 
 		private List<Person> persons;
 		private List<Firestation> firestations;
-		private List<Medicalrecord> medicalrecords;
+		@JsonProperty("medicalrecords")
+		private List<MedicalRecord> medicalRecords;
 
+		
 	}
 
 	@Autowired
@@ -39,7 +42,7 @@ public class InitDbConfiguration {
 	@Autowired
 	private PersonRepository personRepository;
 	@Autowired
-	private MedicalrecordRepository medicalrecordRepository;
+	private MedicalRecordRepository medicalRecordRepository;
 
 	@EventListener(ApplicationReadyEvent.class)
 	public void initDb() throws IOException {
@@ -49,7 +52,7 @@ public class InitDbConfiguration {
 		JSON json = mapper.readValue(getClass().getClassLoader().getResourceAsStream("data.json"), JSON.class);
 
 		personRepository.saveAll(json.getPersons());
-		medicalrecordRepository.saveAll(json.getMedicalrecords());
+		medicalRecordRepository.saveAll(json.getMedicalRecords());
 		firestationRepository.saveAll(json.getFirestations());
 
 	}

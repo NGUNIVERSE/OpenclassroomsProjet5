@@ -21,7 +21,7 @@ public class PersonService {
 	private PersonRepository personRepository;
 
 	/*
-	 * @Autowired private MedicalrecordRepository medicalrecordRepository;
+	 * @Autowired private MedicalRecordRepository medicalRecordRepository;
 	 * 
 	 * @Autowired private FirestationRepository firestationRepository;
 	 */
@@ -164,8 +164,8 @@ public class PersonService {
 	 * List<Person> abstractPeople =
 	 * personRepository.findPersonByFirstnameAndLastname(firstname, lastname);
 	 * 
-	 * for (Person Person : abstractPeople) { Medicalrecord medicalRecord =
-	 * medicalrecordRepository.findFirstMedicalrecordByPersonId(Person.getId());
+	 * for (Person Person : abstractPeople) { MedicalRecord medicalRecord =
+	 * medicalRecordRepository.findFirstMedicalRecordByPersonId(Person.getId());
 	 * 
 	 * 
 	 * 

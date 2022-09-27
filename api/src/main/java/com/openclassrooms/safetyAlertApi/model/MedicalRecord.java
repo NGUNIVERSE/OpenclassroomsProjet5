@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 @Data
-public class Medicalrecord {
+public class MedicalRecord {
 
 	private Long id;
 

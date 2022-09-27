@@ -17,7 +17,7 @@ import com.openclassrooms.safetyAlertApi.dto.PersonCoveredDto;
 import com.openclassrooms.safetyAlertApi.dto.PersonInfoDto;
 import com.openclassrooms.safetyAlertApi.dto.PersonLivingAtAnAddressDto;
 import com.openclassrooms.safetyAlertApi.model.Firestation;
-import com.openclassrooms.safetyAlertApi.model.Medicalrecord;
+import com.openclassrooms.safetyAlertApi.model.MedicalRecord;
 import com.openclassrooms.safetyAlertApi.model.Person;
 
 import lombok.Data;
@@ -31,7 +31,7 @@ public class SafetyAlertService {
 	@Autowired
 	private PersonService personService;
 	@Autowired
-	private MedicalrecordService medicalrecordService;
+	private MedicalRecordService medicalRecordService;
 
 	public List<String> getPhoneNumberOfPersonByFirestation(String firestation) {
 		List<String> addressByFirestation = firestationService.getAddressByFirestation(firestation);
@@ -60,11 +60,11 @@ for(int i = 0;i<listOfPersonAtAnAddress.size();i++) {
 
 
 
-			Medicalrecord medicalrecord = medicalrecordService
-					.findMedicalrecordByFirstnameAndLastname(listOfPersonAtAnAddress.get(i).getFirstname(), listOfPersonAtAnAddress.get(i).getLastname());
+			MedicalRecord medicalRecord = medicalRecordService
+					.findMedicalRecordByFirstnameAndLastname(listOfPersonAtAnAddress.get(i).getFirstname(), listOfPersonAtAnAddress.get(i).getLastname());
 			// calcul de l'age
 
-			long age = getAge(medicalrecord.getBirthdate());
+			long age = getAge(medicalRecord.getBirthdate());
 
 			
 			if (age <= 18) { // si oui ajouter son nom à la liste child
@@ -107,7 +107,7 @@ for(int i = 0;i<listOfPersonAtAnAddress.size();i++) {
 		List<String> addressByFirestation = firestationService.getAddressByFirestation(station);
 		List<Person> personByAddress = personService.getPersonPerAddress(addressByFirestation);
 
-		Medicalrecord medicalrecord = new Medicalrecord();
+		MedicalRecord medicalRecord = new MedicalRecord();
 		// Person person = new Person();
 
 		int i = 0;
@@ -119,10 +119,10 @@ for(int i = 0;i<listOfPersonAtAnAddress.size();i++) {
 
 			// PersonCovered personCovereds = new PersonCovered();
 			// person = listOfPersonAtAnAddress.get(i);
-			medicalrecord = medicalrecordService.findMedicalrecordByFirstnameAndLastname(
+			medicalRecord = medicalRecordService.findMedicalRecordByFirstnameAndLastname(
 					personByAddress.get(i).getFirstname(), personByAddress.get(i).getLastname());
 			// calcul de l'age
-			age = getAge(medicalrecord.getBirthdate());
+			age = getAge(medicalRecord.getBirthdate());
 			PersonCoveredDto personCovereds = new PersonCoveredDto(personByAddress.get(i).getFirstname(),
 					personByAddress.get(i).getLastname(), personByAddress.get(i).getAddress(),
 					personByAddress.get(i).getPhone());
@@ -150,17 +150,17 @@ for(int i = 0;i<listOfPersonAtAnAddress.size();i++) {
 		List<PersonLivingAtAnAddressDto> listOfPersonLivingAtAnAddress = new ArrayList<>();
 		List<Person> listOfPerson = personService.getPersonPerAddress(address);
 		Firestation firestation = firestationService.getFirestationByAddress(address);
-		Medicalrecord medicalrecord = new Medicalrecord();
+		MedicalRecord medicalRecord = new MedicalRecord();
 		int i = 0;
 		for (i = 0; i < listOfPerson.size(); i++) {
 			// PersonLivingAtAnAddress personAtAnAddress = new PersonLivingAtAnAddress();
-			medicalrecord = medicalrecordService.findMedicalrecordByFirstnameAndLastname(
+			medicalRecord = medicalRecordService.findMedicalRecordByFirstnameAndLastname(
 					listOfPerson.get(i).getFirstname(), listOfPerson.get(i).getLastname());
 
 			PersonLivingAtAnAddressDto personAtAnAddress = new PersonLivingAtAnAddressDto(
 					listOfPerson.get(i).getFirstname(), listOfPerson.get(i).getLastname(),
-					listOfPerson.get(i).getPhone(), getAge(medicalrecord.getBirthdate()),
-					medicalrecord.getMedications(), medicalrecord.getAllergies(), firestation.getStation());
+					listOfPerson.get(i).getPhone(), getAge(medicalRecord.getBirthdate()),
+					medicalRecord.getMedications(), medicalRecord.getAllergies(), firestation.getStation());
 			listOfPersonLivingAtAnAddress.add(personAtAnAddress);
 		}
 
@@ -176,16 +176,16 @@ for(int i = 0;i<listOfPersonAtAnAddress.size();i++) {
 	public PersonInfoDto getInformationAboutPerson(String firstname, String lastname) {
 		PersonInfoDto personInfo = new PersonInfoDto();
 		Person person = new Person();
-		Medicalrecord medicalrecord = new Medicalrecord();
+		MedicalRecord medicalRecord = new MedicalRecord();
 		person = personService.getPersonByFirstnameAndLastname(firstname, lastname);
-		medicalrecord = medicalrecordService.findMedicalrecordByFirstnameAndLastname(firstname, lastname);
+		medicalRecord = medicalRecordService.findMedicalRecordByFirstnameAndLastname(firstname, lastname);
 		personInfo.setFirstname(person.getFirstname());
 		personInfo.setLastname(person.getLastname());
 		personInfo.setAddress(person.getAddress());
-		personInfo.setAge(getAge(medicalrecord.getBirthdate()));
+		personInfo.setAge(getAge(medicalRecord.getBirthdate()));
 		personInfo.setEmail(person.getEmail());
-		personInfo.setMedications(medicalrecord.getMedications());
-		personInfo.setAllergies(medicalrecord.getAllergies());
+		personInfo.setMedications(medicalRecord.getMedications());
+		personInfo.setAllergies(medicalRecord.getAllergies());
 
 		return personInfo;
 	}
@@ -206,22 +206,22 @@ for(int i = 0;i<listOfPersonAtAnAddress.size();i++) {
 
 		int i = 0;
 		int j = 0;
-		Medicalrecord medicalrecord = new Medicalrecord();
+		MedicalRecord medicalRecord = new MedicalRecord();
 		for (j = 0; j < station.size(); j++) {
 			List<String> listOfFirestation = firestationService.getAddressByFirestation(station.get(j));
 			List<Person> listOfPersonByAddress = personService.getPersonPerAddress(listOfFirestation);
 
 			for (i = 0; i < listOfPersonByAddress.size(); i++) {
 				FloodListDto flood = new FloodListDto();
-				medicalrecord = medicalrecordService.findMedicalrecordByFirstnameAndLastname(
+				medicalRecord = medicalRecordService.findMedicalRecordByFirstnameAndLastname(
 						listOfPersonByAddress.get(i).getFirstname(), listOfPersonByAddress.get(i).getLastname());
 				flood.setAddress(listOfPersonByAddress.get(i).getAddress());
 				flood.setFirstname(listOfPersonByAddress.get(i).getFirstname());
 				flood.setLastname(listOfPersonByAddress.get(i).getLastname());
 				flood.setPhoneNumber(listOfPersonByAddress.get(i).getPhone());
-				flood.setAge(getAge(medicalrecord.getBirthdate()));
-				flood.setMedications(medicalrecord.getMedications());
-				flood.setAllergies(medicalrecord.getAllergies());
+				flood.setAge(getAge(medicalRecord.getBirthdate()));
+				flood.setMedications(medicalRecord.getMedications());
+				flood.setAllergies(medicalRecord.getAllergies());
 				floodList.add(flood);
 			}
 		}
