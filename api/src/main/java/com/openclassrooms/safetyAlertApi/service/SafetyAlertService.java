@@ -42,45 +42,29 @@ public class SafetyAlertService {
 
 	public List<ChildDto> getChildListFromAnAddress(String address) {
 		List<ChildDto> listOfChild = new ArrayList<>();
-	 List<Person> listOfPersonAtAnAddress = new ArrayList<>();
+		List<Person> listOfPersonAtAnAddress = new ArrayList<>();
 		List<HomeMembresDto> listOfHomeMembers = new ArrayList<>();
-	 listOfPersonAtAnAddress = personService.getPersonPerAddress(address);
+		listOfPersonAtAnAddress = personService.getPersonPerAddress(address);
 
-		// HomeMembresDto homeMembresDto = new HomeMembresDto();
+		for (int i = 0; i < listOfPersonAtAnAddress.size(); i++) {
 
-		// int i = 0;
-		
-		//for (Person person : personService.getPersonPerAddress(address)) {
-for(int i = 0;i<listOfPersonAtAnAddress.size();i++) {
+			HomeMembresDto homeMembresDto = new HomeMembresDto();
+			homeMembresDto.setFirstname(listOfPersonAtAnAddress.get(i).getFirstname());
+			homeMembresDto.setLastname(listOfPersonAtAnAddress.get(i).getLastname());
+			listOfHomeMembers.add(homeMembresDto);
 
-	HomeMembresDto homeMembresDto = new HomeMembresDto();
-		homeMembresDto.setFirstname(listOfPersonAtAnAddress.get(i).getFirstname());
-		homeMembresDto.setLastname(listOfPersonAtAnAddress.get(i).getLastname());
-		listOfHomeMembers.add(homeMembresDto);
-
-
-
-			MedicalRecord medicalRecord = medicalRecordService
-					.findMedicalRecordByFirstnameAndLastname(listOfPersonAtAnAddress.get(i).getFirstname(), listOfPersonAtAnAddress.get(i).getLastname());
-			// calcul de l'age
+			MedicalRecord medicalRecord = medicalRecordService.findMedicalRecordByFirstnameAndLastname(
+					listOfPersonAtAnAddress.get(i).getFirstname(), listOfPersonAtAnAddress.get(i).getLastname());
 
 			long age = getAge(medicalRecord.getBirthdate());
 
-			
-			if (age <= 18) { // si oui ajouter son nom à la liste child
-				// homeMembresDto.setFirstname(person.getFirstname());
-				// homeMembresDto.setLastname(person.getLastname());
-				// listOfHomeMembers.add(homeMembresDto);
-				
-				ChildDto child = new ChildDto(listOfPersonAtAnAddress.get(i).getFirstname(), listOfPersonAtAnAddress.get(i).getLastname(), age, listOfHomeMembers);
+			if (age <= 18) {
+
+				ChildDto child = new ChildDto(listOfPersonAtAnAddress.get(i).getFirstname(),
+						listOfPersonAtAnAddress.get(i).getLastname(), age, listOfHomeMembers);
 				listOfChild.add(child);
-			} else {
-				
 			}
-			
-			// si oui ajouter son nom à la liste child
-			// si non ajouter son nom dans la liste des homemembers
-		} 
+		}
 
 		return listOfChild;
 	}
@@ -98,7 +82,6 @@ for(int i = 0;i<listOfPersonAtAnAddress.size();i++) {
 			return 0;
 		}
 
-		// return String.valueOf(calculAge);
 		return calculAge;
 	}
 
@@ -108,7 +91,6 @@ for(int i = 0;i<listOfPersonAtAnAddress.size();i++) {
 		List<Person> personByAddress = personService.getPersonPerAddress(addressByFirestation);
 
 		MedicalRecord medicalRecord = new MedicalRecord();
-		// Person person = new Person();
 
 		int i = 0;
 		long age = 0;
@@ -117,17 +99,15 @@ for(int i = 0;i<listOfPersonAtAnAddress.size();i++) {
 
 		for (i = 0; i < personByAddress.size(); i++) {
 
-			// PersonCovered personCovereds = new PersonCovered();
-			// person = listOfPersonAtAnAddress.get(i);
 			medicalRecord = medicalRecordService.findMedicalRecordByFirstnameAndLastname(
 					personByAddress.get(i).getFirstname(), personByAddress.get(i).getLastname());
-			// calcul de l'age
+
 			age = getAge(medicalRecord.getBirthdate());
 			PersonCoveredDto personCovereds = new PersonCoveredDto(personByAddress.get(i).getFirstname(),
 					personByAddress.get(i).getLastname(), personByAddress.get(i).getAddress(),
 					personByAddress.get(i).getPhone());
 
-			if (age <= 18) { // si oui ajouter son nom à la liste child
+			if (age <= 18) {
 				nombreEnfant++;
 			} else {
 				nombreAdulte++;
@@ -139,9 +119,6 @@ for(int i = 0;i<listOfPersonAtAnAddress.size();i++) {
 			personCovered.get(i).setNombreEnfant(nombreEnfant);
 			personCovered.get(i).setNombreAdulte(nombreAdulte);
 		}
-		// List des adress parfirestation
-		// liste des person par adresse
-		// nombre dadulte et d'enfant
 
 		return personCovered;
 	}
@@ -153,7 +130,7 @@ for(int i = 0;i<listOfPersonAtAnAddress.size();i++) {
 		MedicalRecord medicalRecord = new MedicalRecord();
 		int i = 0;
 		for (i = 0; i < listOfPerson.size(); i++) {
-			// PersonLivingAtAnAddress personAtAnAddress = new PersonLivingAtAnAddress();
+
 			medicalRecord = medicalRecordService.findMedicalRecordByFirstnameAndLastname(
 					listOfPerson.get(i).getFirstname(), listOfPerson.get(i).getLastname());
 
@@ -167,12 +144,6 @@ for(int i = 0;i<listOfPersonAtAnAddress.size();i++) {
 		return listOfPersonLivingAtAnAddress;
 	}
 
-	/*
-	 * http://localhost:8080/personInfo?firstName=<firstName>&lastName=<lastName>
-	 * Cette url doit retourner le nom, l'adresse, l'âge, l'adresse mail et les
-	 * antécédents médicaux (médicaments, posologie, allergies) de chaque habitant.
-	 * Si plusieurs personnes portent le même nom, elles doivent toutes apparaître.
-	 */
 	public PersonInfoDto getInformationAboutPerson(String firstname, String lastname) {
 		PersonInfoDto personInfo = new PersonInfoDto();
 		Person person = new Person();
@@ -191,17 +162,7 @@ for(int i = 0;i<listOfPersonAtAnAddress.size();i++) {
 	}
 
 	public List<FloodListDto> getListOfHomeDeservedByFirestation(List<String> station) {
-		/*
-		 * http://localhost:8080/flood/stations?stations=<a list of station_numbers>
-		 * Cette url doit retourner une liste de tous les foyers desservis par la
-		 * caserne. Cette liste doit regrouper les personnes par adresse. Elle doit
-		 * aussi inclure le nom, le numéro de téléphone et l'âge des habitants, et faire
-		 * figurer leurs antécédents médicaux (médicaments, posologie et allergies) à
-		 * côté de chaque nom.
-		 */
-		// renvoyer les address par station
-		// renvoyer les personne par address
-		// trouver leur antecedant medicaux
+
 		List<FloodListDto> floodList = new ArrayList<>();
 
 		int i = 0;
@@ -227,12 +188,5 @@ for(int i = 0;i<listOfPersonAtAnAddress.size();i++) {
 		}
 		return floodList;
 	}
-//	public void setFirestationService(FirestationService firestationService)
-//	{
-//		this.firestationService = firestationService == null ? null : new FirestationService() ;
-//	}
-//	public FirestationService getFirestationService()
-//	{
-//		return firestationService == null ? null : new FirestationService();
-//	}
+
 }

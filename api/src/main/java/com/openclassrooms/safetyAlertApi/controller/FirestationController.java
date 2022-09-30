@@ -27,15 +27,6 @@ public class FirestationController {
 	 * @param id The id of the firestation
 	 * @return A Firestation object full filled
 	 */
-	/*
-	 * @GetMapping("/firestation") public ResponseEntity<Firestation>
-	 * getFirestationStationNumber(@RequestParam("stationNumber") final Long
-	 * stationNumber) {
-	 * 
-	 * return ResponseEntity.of(firestationService.getFirestation(id));
-	 * 
-	 * }
-	 */
 
 	/**
 	 * Read - Get one firestation
@@ -97,7 +88,7 @@ public class FirestationController {
 
 		return ResponseEntity.of(firestationService.updateFirestation(id, firestation));
 	}
-	// http://localhost:8080/phoneAlert?firestation=<firestation_number>
+
 	/*
 	 * @GetMapping("/phoneAlert") public List<String>
 	 * listOfAddressByFirestationNumber(@RequestParam("firestation") final String

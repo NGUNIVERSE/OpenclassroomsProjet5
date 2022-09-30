@@ -61,10 +61,8 @@ import com.openclassrooms.safetyAlertApi.model.Person;
 import com.openclassrooms.safetyAlertApi.service.FirestationService;
 import com.openclassrooms.safetyAlertApi.service.SafetyAlertService;
 
-//@WebMvcTest(controllers = SafetyAlertController.class)
 public class SafetyAlertControllerTest {
 
-	// @Autowired
 	private MockMvc mockMvc;
 
 	@Mock
@@ -78,12 +76,8 @@ public class SafetyAlertControllerTest {
 
 	@BeforeEach
 	public void setup() {
-		MockitoAnnotations.openMocks(this); // lit les annotations @..
-		this.mockMvc = MockMvcBuilders.standaloneSetup(safetyAlertController).build(); // Remplace
-																						// @WebMvcTest(controllers =
-																						// SafetyAlertController.class)
-																						// en évitant de charger tout le
-																						// contexte gain de temps
+		MockitoAnnotations.openMocks(this);
+		this.mockMvc = MockMvcBuilders.standaloneSetup(safetyAlertController).build();
 	}
 
 	private Person mockPerson() {
@@ -124,8 +118,8 @@ public class SafetyAlertControllerTest {
 		when(safetyAlertServiceMock.getPhoneNumberOfPersonByFirestation(station)).thenReturn(phone);
 
 		mockMvc.perform(get("/phoneAlert?firestation=" + 1)).andDo(print()).andExpect(status().isOk())
-				.andExpect(jsonPath("$", Matchers.hasSize(2))) // .andExpect(jsonPath("$.size()").value(2))
-				.andExpect(jsonPath("$[0]").value("000-000-000")).andExpect(jsonPath("$[1]").value("111-111-111"));
+				.andExpect(jsonPath("$", Matchers.hasSize(2))).andExpect(jsonPath("$[0]").value("000-000-000"))
+				.andExpect(jsonPath("$[1]").value("111-111-111"));
 
 		verify(safetyAlertServiceMock).getPhoneNumberOfPersonByFirestation(station);
 
@@ -160,12 +154,9 @@ public class SafetyAlertControllerTest {
 		mockMvc.perform(get("/childAlert?address=" + addressMock)).andExpect(status().isOk())
 				.andExpect(jsonPath("[0].firstname", is("roger"))).andExpect(jsonPath("[0].lastname", is("rabbit")))
 				.andExpect(jsonPath("[0].age", is(20)))
-				// .andExpect(jsonPath("[0].homeMembres", is(listOfPerson))) // Problem avec les
-				// tableaux
+
 				.andExpect(jsonPath("[1].firstname", is("babar"))).andExpect(jsonPath("[1].lastname", is("fox")))
 				.andExpect(jsonPath("[1].age", is(30)));
-		// .andExpect(jsonPath("[1].homeMembres", is(listOfPerson))); // Problem avec
-		// les tableaux
 
 		verify(safetyAlertServiceMock).getChildListFromAnAddress(addressMock);
 	}

@@ -160,7 +160,6 @@ public class FirestationControllerTest {
 		mockMvc.perform(post("/firestation").contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON)
 				.content(json)).andExpect(status().isCreated()).andExpect(jsonPath("$.address").value("salut"))
 				.andExpect(jsonPath("$.station").value("77"));
-		;
 
 		verify(firestationServiceMock).saveFirestation(firestationMock1);
 

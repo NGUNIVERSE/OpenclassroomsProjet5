@@ -4,14 +4,14 @@ import lombok.Data;
 
 @Data
 public class Firestation {
-	
+
 	private Long id;
 
 	private String address;
 
 	private String station;
 
-	public Firestation( Long id, String address, String station) {
+	public Firestation(Long id, String address, String station) {
 
 		this.id = id;
 		this.address = address;

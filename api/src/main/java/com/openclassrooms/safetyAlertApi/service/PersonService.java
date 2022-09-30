@@ -20,12 +20,6 @@ public class PersonService {
 	@Autowired
 	private PersonRepository personRepository;
 
-	/*
-	 * @Autowired private MedicalRecordRepository medicalRecordRepository;
-	 * 
-	 * @Autowired private FirestationRepository firestationRepository;
-	 */
-
 	public Optional<Person> getPerson(final Long id) {
 		return personRepository.findById(id);
 	}
@@ -143,8 +137,7 @@ public class PersonService {
 		List<String> listOfPhoneNumber = new ArrayList<>();
 		Iterable<Person> listOfPersons = listOfPerson;
 		for (Person Person : listOfPersons) {
-			// String phoneNumber = new String();
-			// phoneNumber = Person.getPhone();
+
 			listOfPhoneNumber.add(Person.getPhone());
 		}
 
@@ -154,48 +147,5 @@ public class PersonService {
 	public Person getPersonByFirstnameAndLastname(String firstname, String lastname) {
 		return personRepository.findPersonByFirstnameAndLastname(firstname, lastname);
 	}
-	/*
-	 * public List<PersonInfos> getlistPersonsByFirstnameAndLastname(String
-	 * firstname, String lastname) {
-	 * 
-	 * List<PersonInfos> listPersonsInfo = new ArrayList<>(); List<String>
-	 * listStations = new ArrayList<>();
-	 * 
-	 * List<Person> abstractPeople =
-	 * personRepository.findPersonByFirstnameAndLastname(firstname, lastname);
-	 * 
-	 * for (Person Person : abstractPeople) { MedicalRecord medicalRecord =
-	 * medicalRecordRepository.findFirstMedicalRecordByPersonId(Person.getId());
-	 * 
-	 * 
-	 * 
-	 * List<Firestation> stations =
-	 * firestationRepository.findFirestationByAddress(Person.getAddress());
-	 * 
-	 * if (medicalRecord == null) { // logger.error("Person " + Person +
-	 * " don't exist"); }
-	 * 
-	 * int age = calculateAgeService.calculateAge(medicalRecord.getBirthdate());
-	 * 
-	 * PersonInfos personInfos = new PersonInfos();
-	 * personInfos.setFirstname(Person.getFirstname());
-	 * personInfos.setLastname(Person.getLastname());
-	 * personInfos.setAddress(Person.getAddress());
-	 * personInfos.setEmail(Person.getEmail());
-	 * personInfos.setPhone(Person.getPhone()); personInfos.setAge(age);
-	 * 
-	 * for (Firestation a : stations) { if
-	 * (!listStations.contains(String.valueOf(a.getStation()))) {
-	 * listStations.add(String.valueOf(a.getStation())); } }
-	 * 
-	 * personInfos.setStation(listStations);
-	 * personInfos.setAllergies(medicalRecord.getAllergies());
-	 * personInfos.setMedications(medicalRecord.getMedications());
-	 * listPersonsInfo.add(personInfos);
-	 * 
-	 * }
-	 * 
-	 * return listPersonsInfo; }
-	 */
 
 }

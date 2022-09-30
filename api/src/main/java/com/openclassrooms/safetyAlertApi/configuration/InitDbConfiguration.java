@@ -3,8 +3,6 @@ package com.openclassrooms.safetyAlertApi.configuration;
 import java.io.IOException;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.annotation.Configuration;
@@ -24,8 +22,6 @@ import lombok.Data;
 @Configuration
 public class InitDbConfiguration {
 
-	//private static final Logger LOGGER = LoggerFactory.getLogger(InitDbConfiguration.class);
-
 	@Data
 	private static class JSON {
 
@@ -34,7 +30,6 @@ public class InitDbConfiguration {
 		@JsonProperty("medicalrecords")
 		private List<MedicalRecord> medicalRecords;
 
-		
 	}
 
 	@Autowired

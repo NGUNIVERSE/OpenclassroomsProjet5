@@ -35,10 +35,6 @@ public class MedicalRecordControllerTest {
 	@MockBean
 	private MedicalRecordService medicalRecordServiceMock;
 
-	/*
-	 * @MockBean private MedicalRecord medicalRecordMock;
-	 */
-
 	private MedicalRecord mockMedicalRecord() {
 
 		MedicalRecord medicalRecordMock = new MedicalRecord();

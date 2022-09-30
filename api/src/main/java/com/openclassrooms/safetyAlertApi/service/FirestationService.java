@@ -59,13 +59,10 @@ public class FirestationService {
 	public List<String> getAddressByFirestation(String station) {
 
 		List<String> listOfAddressByFirestationNumber = new ArrayList<>();
-		// List<Firestation> listOfAddressByFirestationNumber = new ArrayList<>();
 
 		Iterable<Firestation> firestation = firestationRepository.findByStation(station);
 		for (Firestation Firestation : firestation) {
-			// String addressByFirestationNumber = new String();
-			// addressByFirestationNumber = Firestation.getAddress();
-			// addressByFirestationNumber.setStation(Firestation.getStation());
+
 			listOfAddressByFirestationNumber.add(Firestation.getAddress());
 		}
 

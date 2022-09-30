@@ -21,9 +21,6 @@ public class MedicalRecordController {
 	@Autowired
 	private MedicalRecordService medicalRecordService;
 
-	/*
-	 * @Autowired private MedicalRecordRepository medicalRecordRepository;
-	 */
 	/**
 	 * Read - Get one medicalRecord
 	 * 
@@ -83,10 +80,4 @@ public class MedicalRecordController {
 		return ResponseEntity.of(medicalRecordService.updateMedicalRecord(id, medicalRecord));
 	}
 
-/*	@GetMapping("/testage")
-	public MedicalRecord findBirthdateByFirstnameAndLastnames(String firstname, String lastname) {
-
-		return medicalRecordService.findMedicalRecordByFirstnameAndLastname(firstname, lastname);
-
-	} */
 }

@@ -1,6 +1,5 @@
 package com.openclassrooms.safetyAlertApi.dto;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import lombok.Data;
@@ -17,8 +16,8 @@ public class ChildDto {
 		this.firstname = firstname;
 		this.lastname = lastname;
 		this.age = age;
-	 this.homeMembres = homeMembres;
-	
+		this.homeMembres = homeMembres;
+
 	}
 
 	public ChildDto(String firstname, String lastname, long age) {
@@ -27,6 +26,5 @@ public class ChildDto {
 		this.age = age;
 
 	}
-
 
 }

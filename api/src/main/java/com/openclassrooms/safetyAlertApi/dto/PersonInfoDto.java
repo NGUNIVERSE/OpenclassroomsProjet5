@@ -1,16 +1,12 @@
 package com.openclassrooms.safetyAlertApi.dto;
 
 import java.util.List;
+
 import lombok.Data;
 
 @Data
 public class PersonInfoDto {
 
-	/*
-	 * Cette url doit retourner le nom, l'adresse, l'âge, l'adresse mail et les
-	 * antécédents médicaux (médicaments, posologie, allergies) de chaque habitant.
-	 * Si plusieurs personnes portent le même nom, elles doivent toutes apparaître.
-	 */
 	private String firstname;
 	private String lastname;
 	private String address;

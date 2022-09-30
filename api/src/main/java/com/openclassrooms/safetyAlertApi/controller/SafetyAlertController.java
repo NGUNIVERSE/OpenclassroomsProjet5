@@ -20,7 +20,7 @@ public class SafetyAlertController {
 	@Autowired
 	private SafetyAlertService safetyAlertService;
 
-//		http://localhost:8080/phoneAlert?firestation=<firestation_number>
+	// http://localhost:8080/phoneAlert?firestation=<firestation_number>
 	@GetMapping("/phoneAlert")
 	public List<String> listOfPhoneNumberOfPersonByFirestation(@RequestParam("firestation") final String firestation) {
 
@@ -71,6 +71,6 @@ public class SafetyAlertController {
 	 */
 	@GetMapping("/flood/stations")
 	public List<FloodListDto> listOfHomeDeservedByFirestation(@RequestParam("stations") final List<String> stations) {
-		return safetyAlertService.getListOfHomeDeservedByFirestation(stations); // mettre List String comme paramètre
+		return safetyAlertService.getListOfHomeDeservedByFirestation(stations);
 	}
 }
